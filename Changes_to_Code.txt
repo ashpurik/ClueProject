@@ -1,0 +1,15 @@
+Anastasia Shpurik
+Maria Deslis
+
+1) There were multiple files with the same name but containing different content.
+So we renamed them and moved them so all the files were in the same folder.
+
+2) We moved methods around so that the constructors and getters and setters were
+at the top of the page and the Board methods were after that. 
+
+3) We changed doorwayWorks so there is not an if statement inside of another if
+statement (all in one if statement)
+
+4) Fixed all indentations throughout code so it is easier to read
+
+5) Added short comments after testing code to make sure we know what is going on
