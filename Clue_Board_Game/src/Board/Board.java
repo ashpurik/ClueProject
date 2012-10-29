@@ -163,8 +163,8 @@ public class Board {
 	public void loadConfigFiles(){
 		
 		try{
-		FileReader reader = new FileReader(configOne);
-		//FileReader reader = new FileReader(ourlegend);
+		//FileReader reader = new FileReader(configOne);
+		FileReader reader = new FileReader(ourlegend);
 		Scanner in = new Scanner(reader);
 		RoomCell r;
 		WalkwayCell w;
@@ -181,8 +181,8 @@ public class Board {
 		}
 		
 		in.close();
-		reader = new FileReader(configTwo);
-		//reader = new FileReader(ourboard);
+		//reader = new FileReader(configTwo);
+		reader = new FileReader(ourboard);
 		in = new Scanner (reader);
 		while(in.hasNextLine())
 		{
