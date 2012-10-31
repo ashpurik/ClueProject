@@ -2,7 +2,7 @@ package tests;
 
 import static org.junit.Assert.*;
 import java.util.LinkedList;
-import javax.smartcardio.Card;
+//import javax.smartcardio.Card;
 import junit.framework.Assert;
 
 import org.junit.BeforeClass;
@@ -12,6 +12,7 @@ import Board.Board;
 import Board.ComputerPlayer;
 import Board.HumanPlayer;
 import Board.Player;
+import Board.Card;
 
 public class GameSetupTests {
 	//declaring objects
@@ -84,13 +85,13 @@ public class GameSetupTests {
 		Assert.assertEquals(9, numRooms);
 		
 		//testing one of each card
-		suspect = new Card("Reverend Green");
+		card = new Card("Reverend Green");
 		Assert.assertTrue(deck.contains(suspect));
 		
-		weapon = new Card("Lead Pipe");
+		card = new Card("Lead Pipe");
 		Assert.assertTrue(deck.contains(weapon));
 		
-		room = new Card("Marquez");
+		card = new Card("Marquez");
 		Assert.assertTrue(deck.contains(room));
 		
 		
@@ -129,6 +130,9 @@ public class GameSetupTests {
 		Assert.assertEquals(3, dealtcards6.size());
 		
 		//make sure that each card is unique to the player
+		//pick a few cards, then iterate through all people's cards
+		//count number of times each card comes up
+		//should only come up once (otherwise there are duplicates)
 		
 	}
 	

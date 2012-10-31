@@ -6,6 +6,10 @@ public class Card {
 	
 	public String name;
 	public CardType cardtype;
+	
+	public Card(String name) {
+		//this.name = name;
+	}
 
 	//getters
 	public String getName() {
