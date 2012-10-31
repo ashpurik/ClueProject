@@ -6,6 +6,8 @@ public class Player {
 
 	private String color;
 	
+	private int initpos;
+	
 	//getters
 	public String getName() {
 		return name;
@@ -13,6 +15,10 @@ public class Player {
 	
 	public String getColor() {
 		return color;
+	}
+	
+	public int getPosition(){
+		return initpos;
 	}
 
 	public Card disproveSuggestions(String person, String room, String weapon){
