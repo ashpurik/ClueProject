@@ -25,10 +25,12 @@ public class Card {
 		this.cardtype = cardtype;
 	}
 	
-	//methods
+	//methods?
 	public boolean equals(){
 		return false;
 	}
+	
+	
 	
 	
 	

@@ -1,6 +1,7 @@
 package tests;
 
 import static org.junit.Assert.*;
+import junit.framework.Assert;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -26,7 +27,7 @@ public class GameSetupTests {
 		board = new Board();
 	}
 	
-	//making sure that we are loading correct players from file
+	//test loading people from file
 	@Test
 	public void testLoadFromFile() {
 		//Colonel Mustard - computer
@@ -45,4 +46,62 @@ public class GameSetupTests {
 		assertEquals(board.calcIndex(16,19), human.getPosition());
 	}
 
+	
+	//test loading the cards from files
+	@Test
+	public void testLoadCardsFromFile() {
+		
+		int numRooms = 0;
+		int numWeapons = 0;
+		int numSuspects = 0;
+		int totalCards = board.getDeckSize();
+		//correct number of cards
+		Assert.assertEquals(21, totalCards);
+		for (int i=0; i<totalCards; i++) {
+			CardType cardtype = board.getCardat(i);
+			if (cardtype == CardType.ROOM)
+				numRooms++;
+			else if (cardtype == CardType.WEAPON)
+				numWeapons++;
+			else
+				numSuspects++;
+		}
+		//correct number of each cardtype
+		Assert.assertEquals(6, numWeapons);
+		Assert.assertEquals(6, numSuspects);
+		Assert.assertEquals(9,  numRooms);
+		
+		
+				
+	}
+	
+	//testing the deal
+	@Test
+	public void testDeal(){
+		
+	}
+	
+	//test making an accusation
+	@Test
+	public void testMakeAnAccusation() {
+		
+	}
+	
+	//test selecting a target location
+	@Test
+	public void testSelectTargetLocation() {
+		
+	}
+	
+	//test disproving a suggestions
+	@Test
+	public void testDisproveSuggestion(){
+		
+	}
+	
+	//test computer player making a suggestion
+	@Test
+	public void testComputerSuggestion(){
+		
+	}
 }

@@ -264,5 +264,8 @@ public class Board {
 			System.out.println(e);
 		}
 	}
+	
+	//counting the number of cards in the Cards.txt file
+	
 
 }
