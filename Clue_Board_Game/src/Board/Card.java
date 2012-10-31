@@ -24,6 +24,14 @@ public class Card {
 	public void setCardtype(CardType cardtype) {
 		this.cardtype = cardtype;
 	}
+	
+	//methods
+	public boolean equals(){
+		return false;
+	}
+	
+	
+	
 
 	
 	
