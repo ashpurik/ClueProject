@@ -1,11 +1,8 @@
 package tests;
 
 import static org.junit.Assert.*;
-
 import java.util.LinkedList;
-
 import javax.smartcardio.Card;
-
 import junit.framework.Assert;
 
 import org.junit.BeforeClass;

@@ -265,11 +265,17 @@ public class Board {
 		}
 	}
 	
+	public boolean checkAccusation(String string, String string2, String string3) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	
 	//counting the number of cards in the Cards.txt file
 	
 
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		Board board = new Board();
 		System.out.println(board.calcIndex(0, 4));
-	}
+	}*/
+
 }
