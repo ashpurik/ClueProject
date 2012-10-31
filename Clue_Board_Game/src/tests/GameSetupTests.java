@@ -1,6 +1,11 @@
 package tests;
 
 import static org.junit.Assert.*;
+
+import java.util.LinkedList;
+
+import javax.smartcardio.Card;
+
 import junit.framework.Assert;
 
 import org.junit.BeforeClass;
@@ -15,8 +20,9 @@ public class GameSetupTests {
 	public static Board board;
 	public static ComputerPlayer comp;
 	public static HumanPlayer human;
+	public static Card card;
 	
-	
+	//do this before anything else!
 	@BeforeClass
 	public void setUp(){
 		//declaring new ComputerPlayer object
@@ -51,12 +57,17 @@ public class GameSetupTests {
 	@Test
 	public void testLoadCardsFromFile() {
 		
+		//our deck of cards
+		LinkedList<Card> deck = board.getDeck();
+		
 		int numRooms = 0;
 		int numWeapons = 0;
 		int numSuspects = 0;
 		int totalCards = board.getDeckSize();
+		
 		//correct number of cards
 		Assert.assertEquals(21, totalCards);
+		
 		for (int i=0; i<totalCards; i++) {
 			CardType cardtype = board.getCardat(i);
 			if (cardtype == CardType.ROOM)
@@ -66,13 +77,23 @@ public class GameSetupTests {
 			else
 				numSuspects++;
 		}
+		
 		//correct number of each cardtype
 		Assert.assertEquals(6, numWeapons);
 		Assert.assertEquals(6, numSuspects);
-		Assert.assertEquals(9,  numRooms);
+		Assert.assertEquals(9, numRooms);
+		
+		//testing one of each card
+		suspect = new Card("Reverend Green");
+		Assert.assertTrue(deck.contains(suspect));
+		
+		weapon = new Card("Lead Pipe");
+		Assert.assertTrue(deck.contains(weapon));
+		
+		room = new Card("Marquez");
+		Assert.assertTrue(deck.contains(room));
 		
 		
-				
 	}
 	
 	//testing the deal
