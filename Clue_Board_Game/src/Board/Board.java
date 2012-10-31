@@ -10,6 +10,8 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 
+//import tests.Arraylist;
+
 import Board.RoomCell.DoorDirection;
 
 public class Board {
@@ -268,6 +270,15 @@ public class Board {
 	public boolean checkAccusation(String string, String string2, String string3) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	public void deal() {
+		// TODO Auto-generated method stub
+	}
+
+	public ArrayList<Card> getDeck() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	//counting the number of cards in the Cards.txt file

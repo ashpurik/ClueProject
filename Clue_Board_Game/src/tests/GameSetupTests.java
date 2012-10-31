@@ -1,6 +1,8 @@
 package tests;
 
 import static org.junit.Assert.*;
+
+import java.util.ArrayList;
 import java.util.LinkedList;
 //import javax.smartcardio.Card;
 import junit.framework.Assert;
@@ -59,12 +61,12 @@ public class GameSetupTests {
 	public void testLoadCardsFromFile() {
 		
 		//our deck of cards
-		LinkedList<Card> deck = board.getDeck();
+		ArrayList<Card> deck = board.getDeck();
 		
 		int numRooms = 0;
 		int numWeapons = 0;
 		int numSuspects = 0;
-		int totalCards = board.getDeckSize();
+		int totalCards = board.getDeck().size();
 		
 		//correct number of cards
 		Assert.assertEquals(21, totalCards);
@@ -101,20 +103,22 @@ public class GameSetupTests {
 	@Test
 	public void testDeal(){
 		//creating Players
-		player1 = new Player();
-		player2 = new Player();
-		player3 = new Player();
-		player4 = new Player();
-		player5 = new Player();
-		player6 = new Player();
+		Player player1 = new Player();
+		Player player2 = new Player();
+		Player player3 = new Player();
+		Player player4 = new Player();
+		Player player5 = new Player();
+		Player player6 = new Player();
+		
+		board.deal();
 		
 		//dealt cards for each player
-		LinkedList<Card> dealtcards1 = player1.getCards();
-		LinkedList<Card> dealtcards2 = player2.getCards();
-		LinkedList<Card> dealtcards3 = player3.getCards();
-		LinkedList<Card> dealtcards4 = player4.getCards();
-		LinkedList<Card> dealtcards5 = player5.getCards();
-		LinkedList<Card> dealtcards6 = player6.getCards();
+		ArrayList<Card> dealtcards1 = player1.getCards();
+		ArrayList<Card> dealtcards2 = player2.getCards();
+		ArrayList<Card> dealtcards3 = player3.getCards();
+		ArrayList<Card> dealtcards4 = player4.getCards();
+		ArrayList<Card> dealtcards5 = player5.getCards();
+		ArrayList<Card> dealtcards6 = player6.getCards();
 		
 		int totalCards = dealtcards1.size() + dealtcards2.size() + dealtcards3.size() + dealtcards4.size() + dealtcards5.size() + dealtcards6.size();
 		

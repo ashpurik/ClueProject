@@ -3,7 +3,7 @@ package Board;
 import java.util.ArrayList;
 import java.util.Set;
 
-import javax.smartcardio.Card;
+import Board.Card;
 
 public class Player {
 	//uml based
@@ -40,5 +40,10 @@ public class Player {
 		return null;
 		
 	}
+
+	public ArrayList<Card> getCards() {
+		return null;
+	}
+
 	
 }
