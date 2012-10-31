@@ -13,7 +13,7 @@ import java.util.Set;
 import Board.RoomCell.DoorDirection;
 
 public class Board {
-//testing github
+
 	private ArrayList<BoardCell> cells = new ArrayList<BoardCell>();
 	private Map<Character, String> rooms = null;
 	private Map<BoardCell, LinkedList<Integer>> adjMtx;
@@ -21,8 +21,10 @@ public class Board {
 	private Set<BoardCell> targets;
 	private int numRows = 25;
 	private int numColumns = 24;
+	//rader test from previous group
 	private String configOne = "Config1.txt";
 	private String configTwo = "Config2.txt";
+	//maria and anastasia's stuff
 	private String ourlegend = "legend.txt";
 	private String ourboard = "clueboard.csv";
 
