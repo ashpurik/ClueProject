@@ -2,7 +2,7 @@ package Board;
 
 import java.util.Set;
 
-public class ComputerPlayer {
+public class ComputerPlayer extends Player {
 	//uml based
 	private char lastRoomVisited;
 	

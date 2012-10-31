@@ -10,17 +10,21 @@ import Board.ComputerPlayer;
 import Board.HumanPlayer;
 
 public class GameSetupTests {
+	//declaring objects
+	public static Board board;
+	public static ComputerPlayer comp;
+	public static HumanPlayer human;
+	
+	
 	@BeforeClass
 	public void setUp(){
-		//declaring ComputerPlayer object
-		ComputerPlayer comp = new ComputerPlayer();
-		//declaring HumanPlayer object
-		HumanPlayer human = new HumanPlayer();
+		//declaring new ComputerPlayer object
+		comp = new ComputerPlayer();
+		//declaring new HumanPlayer object
+		human = new HumanPlayer();
 		//creating new  Board object
-		Board board = new Board();
+		board = new Board();
 	}
-	
-	
 	
 	//making sure that we are loading correct players from file
 	@Test
