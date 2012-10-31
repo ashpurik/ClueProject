@@ -21,8 +21,10 @@ public class Board {
 	private Set<BoardCell> targets;
 	private int numRows = 25;
 	private int numColumns = 24;
+	//rader test from previous group
 	private String configOne = "Config1.txt";
 	private String configTwo = "Config2.txt";
+	//maria and anastasia's stuff
 	private String ourlegend = "legend.txt";
 	private String ourboard = "clueboard.csv";
 
@@ -262,6 +264,9 @@ public class Board {
 			System.out.println(e);
 		}
 	}
+	
+	//counting the number of cards in the Cards.txt file
+	
 
 	public static void main(String[] args) {
 		Board board = new Board();
