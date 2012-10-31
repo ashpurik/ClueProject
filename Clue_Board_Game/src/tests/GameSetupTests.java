@@ -14,6 +14,7 @@ import org.junit.Test;
 import Board.Board;
 import Board.ComputerPlayer;
 import Board.HumanPlayer;
+import Board.Player;
 
 public class GameSetupTests {
 	//declaring objects
@@ -21,6 +22,8 @@ public class GameSetupTests {
 	public static ComputerPlayer comp;
 	public static HumanPlayer human;
 	public static Card card;
+	public static Player player;
+	
 	
 	//do this before anything else!
 	@BeforeClass
@@ -96,33 +99,41 @@ public class GameSetupTests {
 		
 	}
 	
-	//testing the deal
+	//testing the deal (ugly baby ahead)
 	@Test
 	public void testDeal(){
+		//creating Players
+		player1 = new Player();
+		player2 = new Player();
+		player3 = new Player();
+		player4 = new Player();
+		player5 = new Player();
+		player6 = new Player();
+		
+		//dealt cards for each player
+		LinkedList<Card> dealtcards1 = player1.getCards();
+		LinkedList<Card> dealtcards2 = player2.getCards();
+		LinkedList<Card> dealtcards3 = player3.getCards();
+		LinkedList<Card> dealtcards4 = player4.getCards();
+		LinkedList<Card> dealtcards5 = player5.getCards();
+		LinkedList<Card> dealtcards6 = player6.getCards();
+		
+		int totalCards = dealtcards1.size() + dealtcards2.size() + dealtcards3.size() + dealtcards4.size() + dealtcards5.size() + dealtcards6.size();
+		
+		//only 18 because 3 of the cards are in the mystery deck!
+		Assert.assertEquals(18, totalCards);
+		
+		//making sure that each person has three cards
+		Assert.assertEquals(3, dealtcards1.size());
+		Assert.assertEquals(3, dealtcards2.size());
+		Assert.assertEquals(3, dealtcards3.size());
+		Assert.assertEquals(3, dealtcards4.size());
+		Assert.assertEquals(3, dealtcards5.size());
+		Assert.assertEquals(3, dealtcards6.size());
+		
+		//make sure that each card is unique to the player
 		
 	}
 	
-	//test making an accusation
-	@Test
-	public void testMakeAnAccusation() {
-		
-	}
 	
-	//test selecting a target location
-	@Test
-	public void testSelectTargetLocation() {
-		
-	}
-	
-	//test disproving a suggestions
-	@Test
-	public void testDisproveSuggestion(){
-		
-	}
-	
-	//test computer player making a suggestion
-	@Test
-	public void testComputerSuggestion(){
-		
-	}
 }
