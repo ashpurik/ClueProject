@@ -1,6 +1,9 @@
 package Board;
 
+import java.util.ArrayList;
 import java.util.Set;
+
+import javax.smartcardio.Card;
 
 public class Player {
 	//uml based
@@ -23,13 +26,19 @@ public class Player {
 		return initpos;
 	}
 
-	public Card disproveSuggestions(String person, String room, String weapon){
-		return null;
-	}
-
 	public BoardCell pickLocation(Set<BoardCell> targets) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public void setCards(ArrayList<Card> cards) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public Card disproveSuggestion(String string, String string2, String string3) {
+		return null;
+		
 	}
 	
 }

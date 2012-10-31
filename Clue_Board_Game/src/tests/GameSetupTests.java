@@ -86,13 +86,13 @@ public class GameSetupTests {
 		
 		//testing one of each card
 		card = new Card("Reverend Green");
-		Assert.assertTrue(deck.contains(suspect));
+		Assert.assertTrue(deck.contains(card)));
 		
 		card = new Card("Lead Pipe");
-		Assert.assertTrue(deck.contains(weapon));
+		Assert.assertTrue(deck.contains(card));
 		
 		card = new Card("Marquez");
-		Assert.assertTrue(deck.contains(room));
+		Assert.assertTrue(deck.contains(card));
 		
 		
 	}

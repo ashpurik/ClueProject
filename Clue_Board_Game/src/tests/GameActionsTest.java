@@ -2,6 +2,8 @@ package tests;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+
 import javax.smartcardio.Card;
 
 import junit.framework.Assert;
@@ -23,6 +25,12 @@ public class GameActionsTest {
 		public static ComputerPlayer comp;
 		public static HumanPlayer human;
 		public static Card card;
+		public static Card mustardCard;
+		public static Card scarlettCard;
+		public static Card knifeCard;
+		public static Card wrenchCard;
+		public static Card greenCard;
+		public static Card aldersonCard;
 		public static Player player;
 		
 		
@@ -35,6 +43,12 @@ public class GameActionsTest {
 			human = new HumanPlayer();
 			//creating new  Board object
 			board = new Board();
+			mustardCard = new Card("Colonel Mustard", Card.CardType.PERSON);
+			scarlettCard = new Card("Miss Scarlett", Card.CardType.PERSON);
+			knifeCard = new Card("Knife", Card.CardType.WEAPON);
+			wrenchCard = new Card("Wrench", Card.CardType.WEAPON);
+			greenCard = new Card("Green Center", Card.CardType.ROOM);
+			aldersonCard = new Card("Alderson", Card.CardType.ROOM);
 		}
 		
 		//test making an accusation
@@ -109,6 +123,60 @@ public class GameActionsTest {
 		//test disproving a suggestions
 		@Test
 		public void testDisproveSuggestion(){
+			///if player has suggested card, that card is returned
+			//if player has multiple cards that match, card to be show is randomly chosen
+			//once player shows card, no other players queried
+			//querying players will happen from random starting point
+			//if no players have relevant cards, null is returned
+			
+			//create player with 6 cards
+			ArrayList<Card> cards = new ArrayList<Card>();
+			cards.add(mustardCard);
+			cards.add(scarlettCard);
+			cards.add(knifeCard);
+			cards.add(wrenchCard);
+			cards.add(greenCard);
+			cards.add(aldersonCard);
+			Player testPlayer = new Player();
+			testPlayer.setCards(cards);
+			
+			//Test for one player, one correct match
+			//Case 1: correct person returned
+			Card test = testPlayer.disproveSuggestion("Colonel Mustard", "Marquez", "Dagger");
+			Assert.assertEquals("Colonel Mustard", test.getName());
+			//Case 2: correct weapon returned
+			test = testPlayer.disproveSuggestion("Professor Plum", "Marquez", "Knife");
+			Assert.assertEquals("Knife", test.getName());
+			//Case 3: correct room returned
+			test = testPlayer.disproveSuggestion("Professor Plum", "Alderson", "Dagger");
+			Assert.assertEquals("Alderson", test.getName());
+			//Case 4: null returned
+			test = testPlayer.disproveSuggestion("Professor Plum", "Marquez", "Dagger");
+			Assert.assertEquals(null, test.getName());
+			
+			//Test for one player, multiple possible matches
+			int colonel = 0;
+			int wrench = 0;
+			int alderson = 0;
+			int green = 0;
+			for (int i=0; i<25; i++) {
+				test = testPlayer.disproveSuggestion("Colonel Mustard", "Wrench", "Alderson");
+				if (test.getName().equals("Colonel Mustard"))
+					colonel++;
+				if (test.getName().equals("Wrench"))
+					wrench++;
+				if (test.getName().equals("Alderson"))
+					alderson++;
+				if (test.getName().equals("Green Center"))
+					green++;
+			}
+			assertTrue(colonel > 0);
+			assertTrue(wrench > 0);
+			assertTrue(alderson > 0);
+			assertTrue(green == 0);
+			
+			//Test that all players are queried
+			
 			
 		}
 		
