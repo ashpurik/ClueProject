@@ -279,6 +279,7 @@ public class Board {
 
 	public void deal() {
 		// TODO Auto-generated method stub
+		// can use Collections.shuffle(yourArrayList); saves time!
 	}
 
 	public ArrayList<Card> getDeck() {
@@ -291,9 +292,6 @@ public class Board {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
-	//counting the number of cards in the Cards.txt file
-	
 
 	/*public static void main(String[] args) {
 		Board board = new Board();

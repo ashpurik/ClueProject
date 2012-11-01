@@ -22,6 +22,8 @@ public class GameActionsTest {
 	public static Board board;
 	public static ComputerPlayer comp;
 	public static Card card;
+	public static Player player;
+	
 	public static Card mustardCard;
 	public static Card scarlettCard;
 	public static Card knifeCard;
@@ -33,13 +35,13 @@ public class GameActionsTest {
 	public static Card pipeCard;
 	public static Card strattonCard;
 	public static Card chauvenetCard;
-	public static Player player;
 
 	//do this before anything else!
 	@BeforeClass
 	public void setUp(){
 		//creating new  Board object
 		board = new Board();
+		
 		mustardCard = new Card("Colonel Mustard", Card.CardType.PERSON);
 		scarlettCard = new Card("Miss Scarlett", Card.CardType.PERSON);
 		knifeCard = new Card("Knife", Card.CardType.WEAPON);
@@ -91,7 +93,7 @@ public class GameActionsTest {
 		for(int i=0; i<25; i++) {
 			if (room.getInitial() != comp.getLastRoomVisited())
 				Assert.assertEquals(board.getCellAt(board.calcIndex(21, 5)), choice);
-				Assert.assertEquals(board.getCellAt(board.calcIndex(19,3)), choice);
+			Assert.assertEquals(board.getCellAt(board.calcIndex(19,3)), choice);
 		}
 	}
 
@@ -202,14 +204,14 @@ public class GameActionsTest {
 		pcards3.add(chauvenetCard);
 		Player p3 = new HumanPlayer();
 		p3.setCards(pcards3);
-		
+
 		Player currentPlayer = new Player();
-		
+
 		ArrayList<Player> players = new ArrayList<Player>();
 		players.add(p1);
 		players.add(p2);
 		players.add(p3);
-		
+
 		//suggestion that no players can disprove (null returned)
 		int bad = 0;
 		for (int i=0; i<players.size(); i++) {
@@ -218,25 +220,24 @@ public class GameActionsTest {
 				bad++;
 		}
 		Assert.assertEquals(0, bad);
-		
+
 		//suggestion only the human could disprove (correct Card returned)
 		int humangift = 0;
 		for( int i = 0; i < players.size(); i++) {
 			Card test2  = players.get(i).disproveSuggestion("Mrs.Peacock", "Pipe", "Marquez");
 			if(test2.getName().equalsIgnoreCase("Pipe"))
 				humangift++;
-			if(test != null) 
+			else
 				bad++;
 		}
 		Assert.assertEquals(1, humangift);
-		Assert.assertEquals(0,bad);
-		
-		
+		Assert.assertEquals(20, bad);
+
 		//multiple people have possible cards, one person returns it
 		int scarlett = 0;
 		int revolver = 0;
 		int stratton = 0;
-		for( int i=0;i < 100; i++){
+		for(int i=0; i < 100; i++){
 			Card test3 = board.handleSuggestion("Miss Scarlett", "Revolver", "Stratton", currentPlayer);
 			if(test3.getName().equals("Miss Scarlett"))
 				scarlett++;
@@ -245,13 +246,12 @@ public class GameActionsTest {
 			if(test3.getName().equals("Stratton"))
 				stratton++;
 		}
-	
 		Assert.assertTrue(scarlett > 1);
 		Assert.assertTrue(revolver > 1);
 		Assert.assertTrue(stratton > 1);
-		
+
 		Assert.assertEquals(100, scarlett+revolver+stratton);
-		
+
 		//making sure that if it a players a turn, they can't disprove their own accusation
 		//computer player
 		int personal1 = 0;
@@ -261,44 +261,58 @@ public class GameActionsTest {
 				personal1++;
 		}		
 		Assert.assertEquals(0, personal1);
-		
+
 		//human player
 		int personal2 = 0;
 		for(int i=0; i < players.size(); i++) {
 			Card test5 = board.handleSuggestion("Reverend Green", "Pipe", "Library", p3);
-			if(test4 != null)
+			if(test5 != null)
 				personal2++;
 		}		
 		Assert.assertEquals(0, personal2);
 	}
-	
-	
 
 	//test computer player making a suggestion
 	@Test
 	public void testComputerSuggestion(){
 		//creating computer player
 		ComputerPlayer compPlayer = new ComputerPlayer("Mrs. White", "White", board.calcIndex(0,15));
-		
-		
-		//Solution 
-		Solution solution = new Solution("Professor Plum", "Rope", "Brown");
-		
-		compPlayer.updateSeen(seen);
-		
-		
-		//compPlayer to make accusation
-		//correct all the way!
-		compPlayer.createSuggestion("Professor Plum", "Rope", pickLocation());
-		
-		
+
 		//cards the computer has seen
 		ArrayList<Card> seenCards = new ArrayList<Card>();
+		//get deck of cards
+		board.getDeck();
 		
-		 
-		//assert that return from handSuggestion is null if nobody has cards
+		//make a few cards, put them in seen
+		seenCards.add(mustardCard);
+		seenCards.add(strattonCard);
+		seenCards.add(scarlettCard);
 		
-
+		int plum=0;
+		int peacock=0;
+		int revGreen=0;
+		int scarlett=0;
+		
+		//have computer randomly choose from cards it hasn't seen to make suggestion
+		for (int i=0; i<25; i++) {
+			ArrayList<Card> suggestion = compPlayer.createSuggestion();
+			for (int j=0; j<25; j++) {
+				Card card = suggestion.get(j);
+				if (card.getName().equals("Professor Plum"))
+					plum++;
+				if (card.getName().equals("Mrs. Peacock"))
+					peacock++;
+				if (card.getName().equals("Revered Green"))
+					revGreen++;
+				if (card.getName().equals("Miss Scarlett"))
+					scarlett++;
+			}
+		}
+		Assert.assertTrue(plum > 1);
+		Assert.assertTrue(peacock > 1);
+		Assert.assertTrue(revGreen > 1);
+		Assert.assertTrue(scarlett == 0);
+		
 	}
 
 }
