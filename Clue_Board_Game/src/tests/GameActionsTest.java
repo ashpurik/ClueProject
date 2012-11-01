@@ -85,12 +85,13 @@ public class GameActionsTest {
 			Assert.assertTrue(choice.isWalkway());
 		}
 
-		//ensures that room is always selected if it isn't last visited		
+		//ensures that room is always selected if it isn't last visited
+		board.calcTargets(board.calcIndex(19,5), 5);
 		choice = player.pickLocation(board.getTargets());
 		for(int i=0; i<25; i++) {
 			if (room.getInitial() != comp.getLastRoomVisited())
 				Assert.assertEquals(board.getCellAt(board.calcIndex(21, 5)), choice);
-			Assert.assertEquals(board.getCellAt(board.calcIndex(19,3)), choice);
+				Assert.assertEquals(board.getCellAt(board.calcIndex(19,3)), choice);
 		}
 	}
 
