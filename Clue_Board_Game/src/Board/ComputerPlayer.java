@@ -18,7 +18,7 @@ public class ComputerPlayer extends Player {
 		return null;
 	}
 	
-	public void createSuggestion(){
+	public void createSuggestion(String person, String weapon, BoardCell room){
 		
 	}
 	

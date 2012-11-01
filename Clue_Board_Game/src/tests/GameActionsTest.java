@@ -265,7 +265,7 @@ public class GameActionsTest {
 		//human player
 		int personal2 = 0;
 		for(int i=0; i < players.size(); i++) {
-			Card test4 = board.handleSuggestion("Reverend Green", "Pipe", "Library", p3);
+			Card test5 = board.handleSuggestion("Reverend Green", "Pipe", "Library", p3);
 			if(test4 != null)
 				personal2++;
 		}		
@@ -277,32 +277,27 @@ public class GameActionsTest {
 	//test computer player making a suggestion
 	@Test
 	public void testComputerSuggestion(){
-		//create 3 players
-		ArrayList<Card> cards = new ArrayList<Card>();
-		cards.add(scarlettCard);
-		cards.add(knifeCard);
-		cards.add(wrenchCard);
-		cards.add(greenCard);
-		Player testPlayer = new Player();
-		testPlayer.setCards(cards);
-
-		ArrayList<Card> cards2 = new ArrayList<Card>();
-		cards2.add(mustardCard);
-		cards2.add(revolverCard);
-		cards2.add(candlestickCard);
-		cards2.add(aldersonCard);
-		Player testPlayer2 = new Player();
-		testPlayer2.setCards(cards2);
-
-		ArrayList<Card> cards3 = new ArrayList<Card>();
-		cards3.add(strattonCard);
-		cards3.add(pipeCard);
-		cards3.add(chauvenetCard);
-		Player testPlayer3 = new HumanPlayer();
-		testPlayer3.setCards(cards3);
-
+		//creating computer player
+		ComputerPlayer compPlayer = new ComputerPlayer("Mrs. White", "White", board.calcIndex(0,15));
+		
+		
+		//Solution 
+		Solution solution = new Solution("Professor Plum", "Rope", "Brown");
+		
+		compPlayer.updateSeen(seen);
+		
+		
+		//compPlayer to make accusation
+		//correct all the way!
+		compPlayer.createSuggestion("Professor Plum", "Rope", pickLocation());
+		
+		
+		//cards the computer has seen
+		ArrayList<Card> seenCards = new ArrayList<Card>();
+		
+		 
 		//assert that return from handSuggestion is null if nobody has cards
-
+		
 
 	}
 
