@@ -7,9 +7,18 @@ import Board.Card;
 
 public class Player {
 	//uml based
-	private String name;
-	private String color;
-	private int initpos;
+	protected String name;
+	protected String color;
+	protected int initpos;
+	
+	public Player() {
+	}
+	
+	public Player(String name, String color, int initpos) {
+		this.name = name;
+		this.color = color;
+		this.initpos = initpos;
+	}
 	
 	//getters
 	public String getName() {
@@ -33,7 +42,7 @@ public class Player {
 		// TODO Auto-generated method stub
 	}
 
-	public Card disproveSuggestion(String string, String string2, String string3) {
+	public Card disproveSuggestion(String person, String weapon, String room) {
 		return null;
 	}
 

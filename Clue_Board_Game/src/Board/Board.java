@@ -10,20 +10,24 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 
-//import tests.Arraylist;
+import junit.framework.Assert;
 
+import Board.Card.CardType;
+//import tests.Arraylist;
+import Board.Player;
 import Board.RoomCell.DoorDirection;
 
 public class Board {
 
 	private ArrayList<BoardCell> cells = new ArrayList<BoardCell>();
 	private ArrayList<Player> players = new ArrayList<Player>();
+	private static ArrayList<Card> deck = new ArrayList<Card>();
 	private Map<Character, String> rooms = null;
 	private Map<BoardCell, LinkedList<Integer>> adjMtx;
 	private Boolean[] visited;
 	private Set<BoardCell> targets;
-	private int numRows = 25;
-	private int numColumns = 24;
+	private int numRows = 21;
+	private int numColumns = 20;
 	//rader test from previous group
 	private String configOne = "Config1.txt";
 	private String configTwo = "Config2.txt";
@@ -76,8 +80,9 @@ public class Board {
 	}
 	
 	public ArrayList<Player> getPlayers() {
-		return null;
+		return players;
 	}
+	
 
 	public int calcIndex(int row, int column){
 		return (row*numColumns+column);
@@ -183,9 +188,72 @@ public class Board {
 	public LinkedList<Integer> getAdjList(int cell){
 		return adjMtx.get(cells.get(cell));
 	}
+	
+	public void loadPeople(String filepeople){
+		
+		Player player = null;
+		
+		try{
+			FileReader reader = new FileReader(filepeople);
+			Scanner in  = new Scanner(reader);
+			
+			int position = 0;
+			String row;
+			String column;
+			
+			//reading from the file
+			//Splitting Person, Color, Starting Point
+			String line;
+			while (in.hasNext()) {
+				line = in.nextLine();
+				String slash = "/";
+				String[] tokens = line.split(slash);
+				
+				String comma = ",";
+				String[] tokens2 = tokens[2].split(comma);
+				tokens2[0] = tokens2[0].substring(1);
+				
+				//getting the position value from character to integer
+				row = tokens2[0];
+				column = tokens2[1];
+				position = calcIndex(Integer.parseInt(row), Integer.parseInt(column));
+
+				//Mrs.Peacock is always the human player
+				if(tokens[0].equals("Mrs. Peacock")) {
+					player = new HumanPlayer(tokens[0], tokens[1].substring(1), position);
+				} else {
+					player = new ComputerPlayer(tokens[0], tokens[1].substring(1), position);
+				
+				}
+				//adding all players to the array list
+				players.add(player);
+				//adds player cards to deck
+				deck.add(new Card(player.getName(), CardType.PERSON));
+			}
+			
+		} catch (FileNotFoundException e){
+			System.out.println("ERROR: " + e + " was not found");
+		}
+	}
+	
+	public void loadWeapons(String weaponFile) {
+		try {
+			FileReader reader = new FileReader(weaponFile);
+			Scanner in = new Scanner(reader);
+			while (in.hasNext()) {
+				deck.add(new Card(in.nextLine(), CardType.WEAPON));
+			}
+		} catch (FileNotFoundException e){
+			System.out.println("ERROR: " + e + " was not found");
+		}
+	}
 
 	public void loadConfigFiles(){
-
+		
+		//load players
+		loadPeople("players.txt");
+		loadWeapons("weapons.txt");
+		
 		try{
 			//FileReader reader = new FileReader(configOne);
 			FileReader reader = new FileReader(ourlegend);
@@ -202,6 +270,9 @@ public class Board {
 				char key = name.charAt(0);
 				name = name.substring(3);
 				rooms.put(key, name);
+				//adds room cards to deck
+				if (!name.equals("Walkway") && !name.equals("Closet") && !name.equals("Door"))
+					deck.add(new Card(name, CardType.ROOM));
 			}
 
 			in.close();
@@ -272,7 +343,7 @@ public class Board {
 		}
 	}
 	
-	public boolean checkAccusation(String string, String string2, String string3) {
+	public boolean checkAccusation(String person, String weapon, String room) {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -283,19 +354,33 @@ public class Board {
 	}
 
 	public ArrayList<Card> getDeck() {
-		// TODO Auto-generated method stub
-		return null;
+		return deck;
 	}
 
 
-	public Card handleSuggestion(String string, String string2, String string3, Player currentPlayer) {
+	public Card handleSuggestion(String person, String weapon, String room, Player currentPlayer) {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	public void setSolution(Solution conclusion){
 
-	/*public static void main(String[] args) {
+	}
+	
+	public static void main(String[] args) {
 		Board board = new Board();
-		System.out.println(board.calcIndex(0, 4));
-	}*/
+		//System.out.println(deck.size());
+		//for (int i=0; i<deck.size(); i++) {
+			//System.out.println(i + " " + deck.get(i).getName());
+		//}
+		//Card card = new Card("Dagger", CardType.WEAPON);
+		//System.out.println(card.getName());
+		//System.out.println(deck.contains(card.getName()));
+		
+		for (int i=0; i<deck.size(); i++) {
+			if (deck.get(i).getName().equals("Dagger"))
+				System.out.println("yes");
+		}
+	}
 
 }

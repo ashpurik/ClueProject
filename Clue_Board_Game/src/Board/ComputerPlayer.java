@@ -9,18 +9,21 @@ public class ComputerPlayer extends Player {
 	ArrayList<Card> seen = new ArrayList<Card>();
 	
 	public ComputerPlayer() {
-		// TODO Auto-generated constructor stub
+		super();
 	}
 	
-	public ComputerPlayer(String string, String string2, int calcIndex) {
-		// TODO Auto-generated constructor stub
+	public ComputerPlayer(String name, String color, int initpos) {
+		this.name = name;
+		this.color = color;
+		this.initpos = initpos;
 	}
+
 
 	public BoardCell pickLocation(Set<BoardCell> targets){
 		return null;
 	}
 	
-	public ArrayList<Card> createSuggestion(){
+	public ArrayList<Card> createSuggestion(BoardCell roomsugg){
 		return null;
 	}
 	

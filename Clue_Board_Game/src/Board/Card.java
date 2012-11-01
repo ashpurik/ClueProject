@@ -8,7 +8,8 @@ public class Card {
 	public CardType cardtype;
 	
 	public Card(String name, CardType cardtype) {
-		
+		this.name = name;
+		this.cardtype = cardtype;
 	}
 
 	//getters

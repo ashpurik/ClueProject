@@ -14,6 +14,7 @@ import Board.ComputerPlayer;
 import Board.HumanPlayer;
 import Board.Player;
 import Board.Card;
+import Board.Solution;
 
 public class GameSetupTests {
 	//declaring objects
@@ -25,7 +26,7 @@ public class GameSetupTests {
 	
 	//do this before anything else!
 	@BeforeClass
-	public void setUp(){
+	public static void setUp(){
 		//creating new  Board object
 		board = new Board();
 		//declaring new ComputerPlayers
@@ -72,6 +73,7 @@ public class GameSetupTests {
 		//correct number of total cards
 		Assert.assertEquals(21, totalCards);
 		
+		//checking for each type of card
 		for (int i=0; i<totalCards; i++) {
 			CardType cardtype = deck.get(i).getCardtype();
 			if (cardtype == CardType.ROOM)
@@ -88,18 +90,28 @@ public class GameSetupTests {
 		Assert.assertEquals(9, numRooms);
 		
 		//testing one of each card
-		card = new Card("Reverend Green", CardType.PERSON);
-		Assert.assertTrue(deck.contains(card.getName()));
+		int daggerCount=0;
+		int revGreenCount=0;
+		int pipeCount=0;
+		int marquezCount=0;
 		
-		card = new Card("Lead Pipe", CardType.WEAPON);
-		Assert.assertTrue(deck.contains(card.getName()));
-		
-		card = new Card("Marquez", CardType.ROOM);
-		Assert.assertTrue(deck.contains(card.getName()));
+		for (int i=0; i<deck.size(); i++) {
+			if (deck.get(i).getName().equals("Dagger") && deck.get(i).getCardtype().equals(CardType.WEAPON))
+				daggerCount++;
+			if (deck.get(i).getName().equals("Reverend Green") && deck.get(i).getCardtype().equals(CardType.PERSON))
+				revGreenCount++;
+			if (deck.get(i).getName().equals("Pipe") && deck.get(i).getCardtype().equals(CardType.WEAPON))
+				pipeCount++;
+			if (deck.get(i).getName().equals("Marquez") && deck.get(i).getCardtype().equals(CardType.ROOM))
+				marquezCount++;
+		}
+		Assert.assertEquals(1, daggerCount);
+		Assert.assertEquals(1, revGreenCount);
+		Assert.assertEquals(1, pipeCount);
+		Assert.assertEquals(1, marquezCount);
 	}
 	
 	//testing the deal (ugly baby ahead)
-	//NEED BETTER WAY TO DO THIS
 	@Test
 	public void testDeal(){
 		//creating Players
@@ -110,6 +122,10 @@ public class GameSetupTests {
 		Player player5 = new Player();
 		Player player6 = new Player();
 		
+		
+		Solution solution = new Solution("Mrs. White", "Pipe", "Stratton");
+		
+		board.setSolution(solution);
 		board.deal();
 		
 		//dealt cards for each player
@@ -144,6 +160,7 @@ public class GameSetupTests {
 		int mustard = 0;
 		int plum = 0;
 		
+		//making sure that each above card is accounted for
 		for (int j=0; j<3; j++) {
 			Card card1 = dealtcards1.get(j);
 			Card card2 = dealtcards2.get(j);
