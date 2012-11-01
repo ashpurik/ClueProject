@@ -277,16 +277,12 @@ public class GameActionsTest {
 	public void testComputerSuggestion(){
 		//creating computer player
 		ComputerPlayer compPlayer = new ComputerPlayer("Mrs. White", "White", board.calcIndex(0,15));
-
-		//cards the computer has seen
-		ArrayList<Card> seenCards = new ArrayList<Card>();
-		//get deck of cards
-		board.getDeck();
 		
-		//make a few cards, put them in seen
-		seenCards.add(mustardCard);
-		seenCards.add(strattonCard);
-		seenCards.add(scarlettCard);
+		//need something for current room player is in
+		
+		compPlayer.updateSeen(mustardCard);
+		compPlayer.updateSeen(strattonCard);
+		compPlayer.updateSeen(scarlettCard);
 		
 		int plum=0;
 		int peacock=0;
@@ -312,6 +308,8 @@ public class GameActionsTest {
 		Assert.assertTrue(peacock > 1);
 		Assert.assertTrue(revGreen > 1);
 		Assert.assertTrue(scarlett == 0);
+		
+		//try to disprove suggestion, make sure it returns null if it is correct answer
 		
 	}
 

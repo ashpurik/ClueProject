@@ -6,6 +6,7 @@ import java.util.Set;
 public class ComputerPlayer extends Player {
 	//uml based
 	private char lastRoomVisited;
+	ArrayList<Card> seen = new ArrayList<Card>();
 	
 	public ComputerPlayer() {
 		// TODO Auto-generated constructor stub
@@ -25,6 +26,10 @@ public class ComputerPlayer extends Player {
 	
 	public void updateSeen(Card seen){
 		
+	}
+	
+	public ArrayList<Card> getSeen() {
+		return seen;
 	}
 
 	public char getLastRoomVisited() {
