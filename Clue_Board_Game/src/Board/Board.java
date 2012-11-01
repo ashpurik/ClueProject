@@ -17,6 +17,7 @@ import Board.RoomCell.DoorDirection;
 public class Board {
 
 	private ArrayList<BoardCell> cells = new ArrayList<BoardCell>();
+	private ArrayList<Player> players = new ArrayList<Player>();
 	private Map<Character, String> rooms = null;
 	private Map<BoardCell, LinkedList<Integer>> adjMtx;
 	private Boolean[] visited;
@@ -72,6 +73,10 @@ public class Board {
 
 	public int getNumColumns() {
 		return numColumns;
+	}
+	
+	public ArrayList<Player> getPlayers() {
+		return null;
 	}
 
 	public int calcIndex(int row, int column){

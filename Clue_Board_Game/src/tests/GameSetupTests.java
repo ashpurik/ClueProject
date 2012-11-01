@@ -3,14 +3,13 @@ package tests;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
-//import javax.smartcardio.Card;
 import junit.framework.Assert;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import Board.Board;
+import Board.Card.CardType;
 import Board.ComputerPlayer;
 import Board.HumanPlayer;
 import Board.Player;
@@ -19,43 +18,45 @@ import Board.Card;
 public class GameSetupTests {
 	//declaring objects
 	public static Board board;
-	public static ComputerPlayer comp;
+	public static ComputerPlayer mustard;
+	public static ComputerPlayer scarlett;
 	public static HumanPlayer human;
 	public static Card card;
-	public static Player player;
-	
 	
 	//do this before anything else!
 	@BeforeClass
 	public void setUp(){
-		//declaring new ComputerPlayer object
-		comp = new ComputerPlayer();
-		//declaring new HumanPlayer object
-		human = new HumanPlayer();
 		//creating new  Board object
 		board = new Board();
+		//declaring new ComputerPlayers
+		mustard = new ComputerPlayer("Colonel Mustard", "Yellow", board.calcIndex(0,4));
+		scarlett = new ComputerPlayer("Miss Scarlett", "Red", board.calcIndex(20, 3));
+		//declaring new HumanPlayer object
+		human = new HumanPlayer("Mrs. Peacock", "Blue", board.calcIndex(16, 19));
 	}
 	
 	//test loading people from file
 	@Test
 	public void testLoadFromFile() {
 		//Colonel Mustard - computer
-		assertEquals("Colonel Mustard", comp.getName());
-		assertEquals("Yellow", comp.getColor());
-		assertEquals(board.calcIndex(0,4), comp.getPosition());
+		Player mustardTest = board.getPlayers().get(0);
+		assertEquals(mustard.getName(), mustardTest.getName());
+		assertEquals(mustard.getColor(), mustardTest.getColor());
+		assertEquals(board.calcIndex(0,4), mustardTest.getPosition());
 		
 		//Miss Scarlett - computer
-		assertEquals("Miss Scarlett", comp.getName());
-		assertEquals("Red", comp.getColor());
-		assertEquals(board.calcIndex(20,3), comp.getPosition());
+		Player scarlettTest = board.getPlayers().get(5);
+		assertEquals(scarlett.getName(), scarlettTest.getName());
+		assertEquals(scarlett.getColor(), scarlettTest.getColor());
+		assertEquals(board.calcIndex(20,3), scarlettTest.getPosition());
 		
-		//Mrs.Peacock - testing human player
-		assertEquals("Mrs. Peacock", human.getName());
-		assertEquals("Blue", human.getColor());
-		assertEquals(board.calcIndex(16,19), human.getPosition());
+		//Mrs. Peacock - testing human player
+		Player peacockTest = board.getPlayers().get(3);
+		assertEquals(human.getName(), peacockTest.getName());
+		assertEquals(human.getColor(), peacockTest.getColor());
+		assertEquals(board.calcIndex(16,19), peacockTest.getPosition());
 	}
 
-	
 	//test loading the cards from files
 	@Test
 	public void testLoadCardsFromFile() {
@@ -66,13 +67,13 @@ public class GameSetupTests {
 		int numRooms = 0;
 		int numWeapons = 0;
 		int numSuspects = 0;
-		int totalCards = board.getDeck().size();
+		int totalCards = deck.size();
 		
-		//correct number of cards
+		//correct number of total cards
 		Assert.assertEquals(21, totalCards);
 		
 		for (int i=0; i<totalCards; i++) {
-			CardType cardtype = board.getCardat(i);
+			CardType cardtype = deck.get(i).getCardtype();
 			if (cardtype == CardType.ROOM)
 				numRooms++;
 			else if (cardtype == CardType.WEAPON)
@@ -81,25 +82,24 @@ public class GameSetupTests {
 				numSuspects++;
 		}
 		
-		//correct number of each cardtype
+		//correct number of each type of card
 		Assert.assertEquals(6, numWeapons);
 		Assert.assertEquals(6, numSuspects);
 		Assert.assertEquals(9, numRooms);
 		
 		//testing one of each card
-		card = new Card("Reverend Green");
-		Assert.assertTrue(deck.contains(card)));
+		card = new Card("Reverend Green", CardType.PERSON);
+		Assert.assertTrue(deck.contains(card.getName()));
 		
-		card = new Card("Lead Pipe");
-		Assert.assertTrue(deck.contains(card));
+		card = new Card("Lead Pipe", CardType.WEAPON);
+		Assert.assertTrue(deck.contains(card.getName()));
 		
-		card = new Card("Marquez");
-		Assert.assertTrue(deck.contains(card));
-		
-		
+		card = new Card("Marquez", CardType.ROOM);
+		Assert.assertTrue(deck.contains(card.getName()));
 	}
 	
 	//testing the deal (ugly baby ahead)
+	//NEED BETTER WAY TO DO THIS
 	@Test
 	public void testDeal(){
 		//creating Players
@@ -122,7 +122,7 @@ public class GameSetupTests {
 		
 		int totalCards = dealtcards1.size() + dealtcards2.size() + dealtcards3.size() + dealtcards4.size() + dealtcards5.size() + dealtcards6.size();
 		
-		//only 18 because 3 of the cards are in the mystery deck!
+		//18 cards dealt among players, 3 are the solution
 		Assert.assertEquals(18, totalCards);
 		
 		//making sure that each person has three cards
@@ -134,11 +134,35 @@ public class GameSetupTests {
 		Assert.assertEquals(3, dealtcards6.size());
 		
 		//make sure that each card is unique to the player
-		//pick a few cards, then iterate through all people's cards
-		//count number of times each card comes up
-		//should only come up once (otherwise there are duplicates)
+		Card revolverCard = new Card("Revolver", CardType.WEAPON);
+		Card aldersonCard = new Card("Alderson", CardType.ROOM);
+		Card mustardCard = new Card("Colonel Mustard", CardType.PERSON);
+		Card plumCard = new Card("Professor Plum", CardType.PERSON);
 		
+		int revolver = 0;
+		int alderson = 0;
+		int mustard = 0;
+		int plum = 0;
+		
+		for (int j=0; j<3; j++) {
+			Card card1 = dealtcards1.get(j);
+			Card card2 = dealtcards2.get(j);
+			Card card3 = dealtcards3.get(j);
+			Card card4 = dealtcards4.get(j);
+			Card card5 = dealtcards5.get(j);
+			Card card6 = dealtcards6.get(j);
+			if (card1 == revolverCard || card2 == revolverCard || card3 == revolverCard || card4 == revolverCard || card5 == revolverCard || card6 == revolverCard)
+				revolver++;
+			if (card1 == aldersonCard || card2 == aldersonCard || card3 == aldersonCard || card4 == aldersonCard || card5 == aldersonCard || card6 == aldersonCard)
+				alderson++;
+			if (card1 == mustardCard || card2 == mustardCard || card3 == mustardCard || card4 == mustardCard || card5 == mustardCard || card6 == mustardCard)
+				mustard++;
+			if (card1 == plumCard || card2 == plumCard || card3 == plumCard || card4 == plumCard || card5 == plumCard || card6 == plumCard)
+				plum++;
+		}
+		assertEquals(1, revolver);
+		assertEquals(1, alderson);
+		assertEquals(1, mustard);
+		assertEquals(1, plum);
 	}
-	
-	
 }

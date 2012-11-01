@@ -3,7 +3,6 @@ package tests;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
-import javax.smartcardio.Card;
 import junit.framework.Assert;
 
 import org.junit.BeforeClass;
@@ -16,6 +15,7 @@ import Board.HumanPlayer;
 import Board.Player;
 import Board.RoomCell;
 import Board.Solution;
+import Board.Card;
 
 public class GameActionsTest {
 	//declaring objects
@@ -38,8 +38,6 @@ public class GameActionsTest {
 	//do this before anything else!
 	@BeforeClass
 	public void setUp(){
-		//declaring new ComputerPlayer object
-		comp = new ComputerPlayer();
 		//creating new  Board object
 		board = new Board();
 		mustardCard = new Card("Colonel Mustard", Card.CardType.PERSON);
@@ -58,6 +56,7 @@ public class GameActionsTest {
 	//test making an accusation
 	@Test
 	public void testMakeAnAccusation() {
+		//might not need this line below
 		Solution solution = new Solution("Professor Plum", "Berthoud", "Candlestick");
 		//tests correct accusation
 		Assert.assertTrue(board.checkAccusation("Professor Plum", "Berthoud", "Candlestick"));
@@ -74,7 +73,7 @@ public class GameActionsTest {
 	//test selecting a target location
 	@Test
 	public void testTargetRoomPreference() {
-		comp = new ComputerPlayer();
+		ComputerPlayer comp = new ComputerPlayer();
 
 		//if room is last visited, random choice is made
 		board.calcTargets(board.calcIndex(0,7), 4);
@@ -179,10 +178,46 @@ public class GameActionsTest {
 		assertTrue(green == 0);
 
 		//Test that all players are queried
+		//create 3 players
+		ArrayList<Card> pcards1 = new ArrayList<Card>();
+		pcards1.add(scarlettCard);
+		pcards1.add(knifeCard);
+		pcards1.add(wrenchCard);
+		pcards1.add(greenCard);
+		Player p1 = new Player();
+		p1.setCards(pcards1);
+
+		ArrayList<Card> pcards2 = new ArrayList<Card>();
+		pcards2.add(mustardCard);
+		pcards2.add(revolverCard);
+		pcards2.add(candlestickCard);
+		pcards2.add(aldersonCard);
+		Player p2 = new Player();
+		p2.setCards(pcards2);
+
+		ArrayList<Card> pcards3 = new ArrayList<Card>();
+		pcards3.add(strattonCard);
+		pcards3.add(pipeCard);
+		pcards3.add(chauvenetCard);
+		Player p3 = new HumanPlayer();
+		p3.setCards(pcards3);
+		
+		ArrayList<Player> players = new ArrayList<Player>();
+		players.add(p1);
+		players.add(p2);
+		players.add(p3);
+		
 		//suggestion that no players can disprove (null returned)
-
+		int bad = 0;
+		for (int i=0; i<players.size(); i++) {
+			Card test1 = players.get(i).disproveSuggestion("Mrs. Peacock", "Ax", "Marquez");
+			if (test != null)
+				bad++;
+		}
+		Assert.assertEquals(0, bad);
+		
 		//suggestion only the human could disprove (correct Crad returned)
-
+		
 		//if person who made suggestion is only one who could disprove it, null returned
 
 		//ensure players are not queried in the same order each time			
@@ -200,7 +235,7 @@ public class GameActionsTest {
 		cards.add(greenCard);
 		Player testPlayer = new Player();
 		testPlayer.setCards(cards);
-		
+
 		ArrayList<Card> cards2 = new ArrayList<Card>();
 		cards2.add(mustardCard);
 		cards2.add(revolverCard);
@@ -208,17 +243,17 @@ public class GameActionsTest {
 		cards2.add(aldersonCard);
 		Player testPlayer2 = new Player();
 		testPlayer2.setCards(cards2);
-		
+
 		ArrayList<Card> cards3 = new ArrayList<Card>();
 		cards3.add(strattonCard);
 		cards3.add(pipeCard);
 		cards3.add(chauvenetCard);
 		Player testPlayer3 = new HumanPlayer();
 		testPlayer3.setCards(cards3);
-		
+
 		//assert that return from handSuggestion is null if nobody has cards
-		
-		
+
+
 	}
 
 }

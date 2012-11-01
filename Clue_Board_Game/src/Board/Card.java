@@ -7,8 +7,8 @@ public class Card {
 	public String name;
 	public CardType cardtype;
 	
-	public Card(String name) {
-		//this.name = name;
+	public Card(String name, CardType cardtype) {
+		
 	}
 
 	//getters
@@ -33,13 +33,5 @@ public class Card {
 	public boolean equals(){
 		return false;
 	}
-	
-	
-	
-	
-	
-
-	
-	
 	
 }
