@@ -85,12 +85,13 @@ public class GameActionsTest {
 			Assert.assertTrue(choice.isWalkway());
 		}
 
-		//ensures that room is always selected if it isn't last visited		
+		//ensures that room is always selected if it isn't last visited
+		board.calcTargets(board.calcIndex(19,5), 5);
 		choice = player.pickLocation(board.getTargets());
 		for(int i=0; i<25; i++) {
 			if (room.getInitial() != comp.getLastRoomVisited())
 				Assert.assertEquals(board.getCellAt(board.calcIndex(21, 5)), choice);
-			Assert.assertEquals(board.getCellAt(board.calcIndex(19,3)), choice);
+				Assert.assertEquals(board.getCellAt(board.calcIndex(19,3)), choice);
 		}
 	}
 
@@ -202,6 +203,8 @@ public class GameActionsTest {
 		Player p3 = new HumanPlayer();
 		p3.setCards(pcards3);
 		
+		Player currentPlayer = new Player();
+		
 		ArrayList<Player> players = new ArrayList<Player>();
 		players.add(p1);
 		players.add(p2);
@@ -216,13 +219,60 @@ public class GameActionsTest {
 		}
 		Assert.assertEquals(0, bad);
 		
-		//suggestion only the human could disprove (correct Crad returned)
+		//suggestion only the human could disprove (correct Card returned)
+		int humangift = 0;
+		for( int i = 0; i < players.size(); i++) {
+			Card test2  = players.get(i).disproveSuggestion("Mrs.Peacock", "Pipe", "Marquez");
+			if(test2.getName().equalsIgnoreCase("Pipe"))
+				humangift++;
+			if(test != null) 
+				bad++;
+		}
+		Assert.assertEquals(1, humangift);
+		Assert.assertEquals(0,bad);
 		
-		//if person who made suggestion is only one who could disprove it, null returned
-
-		//ensure players are not queried in the same order each time			
-
+		
+		//multiple people have possible cards, one person returns it
+		int scarlett = 0;
+		int revolver = 0;
+		int stratton = 0;
+		for( int i=0;i < 100; i++){
+			Card test3 = board.handleSuggestion("Miss Scarlett", "Revolver", "Stratton", currentPlayer);
+			if(test3.getName().equals("Miss Scarlett"))
+				scarlett++;
+			if(test3.getName().equals("Revolver"))
+				revolver++;
+			if(test3.getName().equals("Stratton"))
+				stratton++;
+		}
+	
+		Assert.assertTrue(scarlett > 1);
+		Assert.assertTrue(revolver > 1);
+		Assert.assertTrue(stratton > 1);
+		
+		Assert.assertEquals(100, scarlett+revolver+stratton);
+		
+		//making sure that if it a players a turn, they can't disprove their own accusation
+		//computer player
+		int personal1 = 0;
+		for(int i=0; i < players.size(); i++) {
+			Card test4 = board.handleSuggestion("Reverend Green", "Knife", "Library", p1);
+			if(test4 != null)
+				personal1++;
+		}		
+		Assert.assertEquals(0, personal1);
+		
+		//human player
+		int personal2 = 0;
+		for(int i=0; i < players.size(); i++) {
+			Card test4 = board.handleSuggestion("Reverend Green", "Pipe", "Library", p3);
+			if(test4 != null)
+				personal2++;
+		}		
+		Assert.assertEquals(0, personal2);
 	}
+	
+	
 
 	//test computer player making a suggestion
 	@Test

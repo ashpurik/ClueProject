@@ -285,6 +285,12 @@ public class Board {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+
+	public Card handleSuggestion(String string, String string2, String string3, Player currentPlayer) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 	//counting the number of cards in the Cards.txt file
 	
