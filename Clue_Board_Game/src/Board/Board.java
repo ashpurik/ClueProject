@@ -3,6 +3,7 @@ package Board;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -20,12 +21,13 @@ import Board.RoomCell.DoorDirection;
 public class Board {
 
 	private ArrayList<BoardCell> cells = new ArrayList<BoardCell>();
-	private ArrayList<Player> players = new ArrayList<Player>();
+	private static ArrayList<Player> players = new ArrayList<Player>();
 	private static ArrayList<Card> deck = new ArrayList<Card>();
 	private Map<Character, String> rooms = null;
 	private Map<BoardCell, LinkedList<Integer>> adjMtx;
 	private Boolean[] visited;
 	private Set<BoardCell> targets;
+	private static Solution solution;
 	private int numRows = 21;
 	private int numColumns = 20;
 	//rader test from previous group
@@ -349,8 +351,62 @@ public class Board {
 	}
 
 	public void deal() {
-		// TODO Auto-generated method stub
-		// can use Collections.shuffle(yourArrayList); saves time!
+		String person = null;
+		String weapon = null;
+		String room = null;
+		
+		//shuffle the cards
+		Collections.shuffle(deck);
+		
+		//pick solution
+		for (int i=0; i<deck.size(); i++) {
+			if (deck.get(i).getCardtype() == CardType.PERSON) {
+				person = deck.get(i).getName();
+				continue;
+			}
+			if (deck.get(i).getCardtype() == CardType.WEAPON) {
+				weapon = deck.get(i).getName();
+				continue;
+			}
+			if (deck.get(i).getCardtype() == CardType.ROOM) {
+				room = deck.get(i).getName();
+				continue;
+			}
+		}
+		solution = new Solution(person, weapon, room);
+		
+		//put solution into an ArrayList
+		ArrayList<String> answer = new ArrayList<String>();
+		answer.add(person);
+		answer.add(weapon);
+		answer.add(room);
+		
+		//find out how many cards each player gets
+		int cardsPer = deck.size()/players.size();
+		
+		//each person's cards
+		ArrayList<Card> setofCards;
+		int loc = 0;
+		
+		//for each player, create new set of cards
+		for (int j=0; j<players.size(); j++) {
+			setofCards = new ArrayList<Card>();
+			//check if next card is not solution and player still needs more cards
+			for (int i=loc; i<deck.size(); i++) {		
+				if (!answer.contains(deck.get(i).getName()) && setofCards.size() < cardsPer) {
+					setofCards.add(deck.get(i));
+					loc++;
+				}
+			}
+			players.get(j).setCards(setofCards);
+		}	
+		
+		/*for (int i=0; i<players.size(); i++) {
+			for (int j=0; j<players.get(i).getCards().size(); j++) {
+				System.out.println(players.get(i).getCards().get(j).getName());
+			}
+			System.out.println("---------");
+		}*/
 	}
 
 	public ArrayList<Card> getDeck() {
@@ -367,20 +423,15 @@ public class Board {
 
 	}
 	
+	public Solution getSolution() {
+		return solution;
+	}
+	
 	public static void main(String[] args) {
 		Board board = new Board();
-		//System.out.println(deck.size());
-		//for (int i=0; i<deck.size(); i++) {
-			//System.out.println(i + " " + deck.get(i).getName());
-		//}
-		//Card card = new Card("Dagger", CardType.WEAPON);
-		//System.out.println(card.getName());
-		//System.out.println(deck.contains(card.getName()));
-		
-		for (int i=0; i<deck.size(); i++) {
-			if (deck.get(i).getName().equals("Dagger"))
-				System.out.println("yes");
-		}
+		board.deal();
+		Solution newSolution = board.getSolution();
+		//System.out.println(newSolution.getPerson() + " " + newSolution.getRoom() + " " + newSolution.getWeapon());
 	}
 
 }

@@ -10,6 +10,7 @@ public class Player {
 	protected String name;
 	protected String color;
 	protected int initpos;
+	ArrayList<Card> cards;
 	
 	public Player() {
 	}
@@ -39,7 +40,7 @@ public class Player {
 	}
 
 	public void setCards(ArrayList<Card> cards) {
-		// TODO Auto-generated method stub
+		this.cards = cards;
 	}
 
 	public Card disproveSuggestion(String person, String weapon, String room) {
@@ -47,7 +48,7 @@ public class Player {
 	}
 
 	public ArrayList<Card> getCards() {
-		return null;
+		return cards;
 	}
 
 

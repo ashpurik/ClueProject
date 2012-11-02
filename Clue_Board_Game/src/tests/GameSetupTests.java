@@ -23,6 +23,8 @@ public class GameSetupTests {
 	public static ComputerPlayer scarlett;
 	public static HumanPlayer human;
 	public static Card card;
+	public static ArrayList<Player> players;
+	public static Solution solution;
 	
 	//do this before anything else!
 	@BeforeClass
@@ -34,6 +36,7 @@ public class GameSetupTests {
 		scarlett = new ComputerPlayer("Miss Scarlett", "Red", board.calcIndex(20, 3));
 		//declaring new HumanPlayer object
 		human = new HumanPlayer("Mrs. Peacock", "Blue", board.calcIndex(16, 19));
+		players = board.getPlayers();
 	}
 	
 	//test loading people from file
@@ -110,76 +113,64 @@ public class GameSetupTests {
 		Assert.assertEquals(1, pipeCount);
 		Assert.assertEquals(1, marquezCount);
 	}
-	
 	//testing the deal (ugly baby ahead)
 	@Test
 	public void testDeal(){
-		//creating Players
-		Player player1 = new Player();
-		Player player2 = new Player();
-		Player player3 = new Player();
-		Player player4 = new Player();
-		Player player5 = new Player();
-		Player player6 = new Player();
 		
-		
-		Solution solution = new Solution("Mrs. White", "Pipe", "Stratton");
-		
-		board.setSolution(solution);
 		board.deal();
+		solution = board.getSolution();
 		
-		//dealt cards for each player
-		ArrayList<Card> dealtcards1 = player1.getCards();
-		ArrayList<Card> dealtcards2 = player2.getCards();
-		ArrayList<Card> dealtcards3 = player3.getCards();
-		ArrayList<Card> dealtcards4 = player4.getCards();
-		ArrayList<Card> dealtcards5 = player5.getCards();
-		ArrayList<Card> dealtcards6 = player6.getCards();
-		
-		int totalCards = dealtcards1.size() + dealtcards2.size() + dealtcards3.size() + dealtcards4.size() + dealtcards5.size() + dealtcards6.size();
-		
+		int totalCards=0;
+		for (int i=0; i<players.size(); i++) {
+			totalCards += players.get(i).getCards().size();
+		}
+			
 		//18 cards dealt among players, 3 are the solution
 		Assert.assertEquals(18, totalCards);
 		
 		//making sure that each person has three cards
-		Assert.assertEquals(3, dealtcards1.size());
-		Assert.assertEquals(3, dealtcards2.size());
-		Assert.assertEquals(3, dealtcards3.size());
-		Assert.assertEquals(3, dealtcards4.size());
-		Assert.assertEquals(3, dealtcards5.size());
-		Assert.assertEquals(3, dealtcards6.size());
+		for (int i=0; i<players.size(); i++) {
+			Assert.assertEquals(3, players.get(i).getCards().size());
+		}
 		
 		//make sure that each card is unique to the player
-		Card revolverCard = new Card("Revolver", CardType.WEAPON);
-		Card aldersonCard = new Card("Alderson", CardType.ROOM);
-		Card mustardCard = new Card("Colonel Mustard", CardType.PERSON);
-		Card plumCard = new Card("Professor Plum", CardType.PERSON);
-		
 		int revolver = 0;
 		int alderson = 0;
 		int mustard = 0;
 		int plum = 0;
 		
 		//making sure that each above card is accounted for
-		for (int j=0; j<3; j++) {
-			Card card1 = dealtcards1.get(j);
-			Card card2 = dealtcards2.get(j);
-			Card card3 = dealtcards3.get(j);
-			Card card4 = dealtcards4.get(j);
-			Card card5 = dealtcards5.get(j);
-			Card card6 = dealtcards6.get(j);
-			if (card1 == revolverCard || card2 == revolverCard || card3 == revolverCard || card4 == revolverCard || card5 == revolverCard || card6 == revolverCard)
-				revolver++;
-			if (card1 == aldersonCard || card2 == aldersonCard || card3 == aldersonCard || card4 == aldersonCard || card5 == aldersonCard || card6 == aldersonCard)
-				alderson++;
-			if (card1 == mustardCard || card2 == mustardCard || card3 == mustardCard || card4 == mustardCard || card5 == mustardCard || card6 == mustardCard)
-				mustard++;
-			if (card1 == plumCard || card2 == plumCard || card3 == plumCard || card4 == plumCard || card5 == plumCard || card6 == plumCard)
-				plum++;
+		
+		//run test 100 times
+		for (int t=0; t<100; t++) {
+			for (int i=0; i<players.size(); i++) {
+				//for each player's cards
+				for (int j=0; j<players.get(i).getCards().size(); j++) {
+					String card = players.get(i).getCards().get(j).getName();
+					CardType type = players.get(i).getCards().get(j).getCardtype();
+					//check how many times the following 4 cards show up
+					if (card.equals("Revolver") && type == CardType.WEAPON)
+						revolver++;
+					if (card.equals("Alderson") && type == CardType.ROOM)
+						alderson++;
+					if (card.equals("Colonel Mustard") && type == CardType.PERSON)
+						mustard++;
+					if (card.equals("Professor Plum") && type == CardType.PERSON)
+						plum++;
+				}
+			}
 		}
-		assertEquals(1, revolver);
-		assertEquals(1, alderson);
-		assertEquals(1, mustard);
-		assertEquals(1, plum);
+		
+		//assuming the solution is not any of the 4 cards
+		if (!solution.getPerson().equals("Professor Plum")) 
+			assertEquals(100, plum);
+		if (!solution.getRoom().equals("Alderson"))
+			assertEquals(100, alderson);
+		if (!solution.getWeapon().equals("Revolver"))
+			assertEquals(100, revolver);
+		if (!solution.getPerson().equals("Colonel Mustard"))
+			assertEquals(100, mustard);
+	
 	}
 }
+
