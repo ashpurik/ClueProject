@@ -162,17 +162,17 @@ public class GameActionsTest {
 
 		//Test for one player, one correct match
 		//Case 1: correct person returned
-		Card test = testPlayer.disproveSuggestion("Colonel Mustard", "Marquez", "Dagger");
+		Card test = testPlayer.disproveSuggestion("Colonel Mustard", "Dagger", "Marquez");
 		Assert.assertEquals("Colonel Mustard", test.getName());
 		//Case 2: correct weapon returned
-		test = testPlayer.disproveSuggestion("Professor Plum", "Marquez", "Knife");
+		test = testPlayer.disproveSuggestion("Professor Plum", "Knife", "Marquez");
 		Assert.assertEquals("Knife", test.getName());
 		//Case 3: correct room returned
-		test = testPlayer.disproveSuggestion("Professor Plum", "Alderson", "Dagger");
+		test = testPlayer.disproveSuggestion("Professor Plum", "Dagger", "Alderson");
 		Assert.assertEquals("Alderson", test.getName());
 		//Case 4: null returned
-		test = testPlayer.disproveSuggestion("Professor Plum", "Marquez", "Dagger");
-		Assert.assertEquals(null, test.getName());
+		test = testPlayer.disproveSuggestion("Professor Plum", "Dagger", "Marquez");
+		Assert.assertNull(test);
 
 		//Test for one player, multiple possible matches
 		int colonel = 0;
@@ -230,8 +230,8 @@ public class GameActionsTest {
 		//suggestion that no players can disprove (null returned)
 		int bad = 0;
 		for (int i=0; i<players.size(); i++) {
-			Card test1 = players.get(i).disproveSuggestion("Mrs. Peacock", "Ax", "Marquez");
-			if (test != null)
+			Card test1 = players.get(i).disproveSuggestion("Mrs. Peacock", "Rope", "Marquez");
+			if (test1 != null)
 				bad++;
 		}
 		Assert.assertEquals(0, bad);
@@ -240,13 +240,13 @@ public class GameActionsTest {
 		int humangift = 0;
 		for( int i = 0; i < players.size(); i++) {
 			Card test2  = players.get(i).disproveSuggestion("Mrs.Peacock", "Pipe", "Marquez");
-			if(test2.getName().equalsIgnoreCase("Pipe"))
+			if(test2 != null && test2.getName().equals("Pipe")) 
 				humangift++;
-			else
+			else 
 				bad++;
 		}
 		Assert.assertEquals(1, humangift);
-		Assert.assertEquals(20, bad);
+		Assert.assertEquals(2, bad);
 
 		//multiple people have possible cards, one person returns one card only
 		int scarlett = 0;
