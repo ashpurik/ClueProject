@@ -41,8 +41,8 @@ public class ComputerPlayer extends Player {
 		return null;
 	}
 	
-	public void updateSeen(Card seen){
-		
+	public void updateSeen(Card seencard){
+		seen.add(seencard);
 	}
 	
 	public ArrayList<Card> getSeen() {
