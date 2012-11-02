@@ -346,8 +346,10 @@ public class Board {
 	}
 	
 	public boolean checkAccusation(String person, String weapon, String room) {
-		// TODO Auto-generated method stub
-		return false;
+		if (solution.getPerson().equals(person) && solution.getWeapon().equals(weapon) && solution.getRoom().equals(room))
+			return true;
+		else
+			return false;
 	}
 
 	public void deal() {
@@ -419,8 +421,8 @@ public class Board {
 		return null;
 	}
 	
-	public void setSolution(Solution conclusion){
-
+	public static void setSolution(Solution conclusion){
+		solution = conclusion;
 	}
 	
 	public Solution getSolution() {
@@ -430,8 +432,10 @@ public class Board {
 	public static void main(String[] args) {
 		Board board = new Board();
 		board.deal();
-		Solution newSolution = board.getSolution();
-		//System.out.println(newSolution.getPerson() + " " + newSolution.getRoom() + " " + newSolution.getWeapon());
+		//System.out.println(solution.getPerson());
+		Solution newsolution = new Solution("Professor Plum", "Berthoud", "Candlestick");
+		setSolution(newsolution);
+		//System.out.println(solution.getPerson());
 	}
 
 }

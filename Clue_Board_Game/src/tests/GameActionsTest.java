@@ -25,7 +25,7 @@ public class GameActionsTest {
 	public static ComputerPlayer comp;
 	public static Card card;
 	public static Player player;
-	
+
 	public static Card mustardCard;
 	public static Card scarlettCard;
 	public static Card knifeCard;
@@ -38,19 +38,15 @@ public class GameActionsTest {
 	public static Card strattonCard;
 	public static Card chauvenetCard;
 	public static Solution solution;
-	public static ComputerPlayer compPlayer;
-	
-	
+
 	//do this before anything else!
 	@BeforeClass
-	public void setUp(){
+	public static void setUp(){
 		//creating new  Board object
 		board = new Board();
 		//possible solution
 		solution = new Solution("Professor Plum", "Berthoud", "Candlestick");
-		//new computer player
-		compPlayer = new ComputerPlayer();
-		
+
 		mustardCard = new Card("Colonel Mustard", Card.CardType.PERSON);
 		scarlettCard = new Card("Miss Scarlett", Card.CardType.PERSON);
 		knifeCard = new Card("Knife", Card.CardType.WEAPON);
@@ -68,7 +64,7 @@ public class GameActionsTest {
 	@Test
 	public void testMakeAnAccusation() {
 		board.setSolution(solution);
-		
+
 		//tests correct accusation
 		Assert.assertTrue(board.checkAccusation("Professor Plum", "Berthoud", "Candlestick"));
 		//Case1:tests incorrect name accusation
@@ -85,23 +81,35 @@ public class GameActionsTest {
 	@Test
 	public void testTargetRoomPreference() {
 		//if room is last visited, random choice is made
-		board.calcTargets(board.calcIndex(0,7), 4);
-		BoardCell choice = player.pickLocation(board.getTargets());
-		RoomCell room = board.getRoomCellAt(2,6);
-		for(int i=0; i<25; i++) {
-			if (room.getInitial() == comp.getLastRoomVisited())
-				Assert.assertFalse(choice.isRoom());
-			Assert.assertTrue(choice.isWalkway());
+		ComputerPlayer compPlayer = new ComputerPlayer();
+		//choose spot on board where room is a target
+		board.calcTargets(board.calcIndex(0,6), 2);
+		//set this room to already visited
+		compPlayer.setLastRoomVisited('G');
+		//run test 100 times
+		int good=0;
+		for(int i=0; i<100; i++) {
+			BoardCell choice = compPlayer.pickLocation(board.getTargets());
+			if (choice.isWalkway() && !choice.isRoom())
+				good++;
 		}
+		
+		Assert.assertEquals(100, good);
 
 		//ensures that room is always selected if it isn't last visited
+		//choose spot on board where 2 rooms are a target
 		board.calcTargets(board.calcIndex(19,5), 5);
-		choice = player.pickLocation(board.getTargets());
-		for(int i=0; i<25; i++) {
-			if (room.getInitial() != comp.getLastRoomVisited())
-				Assert.assertEquals(board.getCellAt(board.calcIndex(21, 5)), choice);
-			Assert.assertEquals(board.getCellAt(board.calcIndex(19,3)), choice);
+		//set this last visited room to something different from these rooms
+		compPlayer.setLastRoomVisited('C');
+		//run test 100 times
+		int yes=0;
+		for(int i=0; i<100; i++) {
+			BoardCell choice = compPlayer.pickLocation(board.getTargets());
+			if (choice.isRoom() && !choice.isWalkway())
+				yes++;
 		}
+		
+		Assert.assertEquals(100, yes);
 	}
 
 	@Test
@@ -284,27 +292,27 @@ public class GameActionsTest {
 	public void testComputerSuggestion(){
 		//creating computer player
 		ComputerPlayer compPlayer = new ComputerPlayer("Mrs. White", "White", board.calcIndex(0,15));
-		
+
 		//possible Solution
 		Solution solution  =  new Solution("Professor Plum", "Rope", "Brown");
-		
+
 		//need something for current room player is in
 		//making sure that the location Mrs.White picks is a room
 		board.calcTargets(board.calcIndex(0,15), 4);
 		Set<BoardCell> targets = board.getTargets();
-		
+
 		BoardCell room = compPlayer.pickLocation(targets);
-		
+
 		compPlayer.updateSeen(mustardCard);
 		compPlayer.updateSeen(strattonCard);
 		compPlayer.updateSeen(scarlettCard);
-		
+
 		int plum=0;
 		int peacock=0;
 		int revGreen=0;
 		int scarlett=0;
 		int guggenheim=0;
-		
+
 		//have computer randomly choose from cards it hasn't seen to make suggestion
 		for (int i=0; i<25; i++) {
 			ArrayList<Card> suggestion = compPlayer.createSuggestion(room);
@@ -322,33 +330,33 @@ public class GameActionsTest {
 					guggenheim++;
 			}
 		}
-		
+
 		Assert.assertTrue(plum > 1);
 		Assert.assertTrue(peacock > 1);
 		Assert.assertTrue(revGreen > 1);
 		Assert.assertTrue(scarlett == 0);
 		Assert.assertTrue(guggenheim == 0);
-		
+
 		//try to disprove suggestion, make sure it returns null if it is correct answer
 		//set the solution
 		board.setSolution(solution);
 		//deal the cards
 		board.deal();
-		
+
 		//array list of all the players
 		ArrayList<Player> players =  board.getPlayers();
-		
+
 		int counter = 0;
-		
+
 		//if no one can disprove it you did great
 		for(int i=0; i < players.size(); i++) {
 			Card test6 = players.get(i).disproveSuggestion("Professor Plum", "Rope", "Brown");
 			if(!test6.equals(null))
 				counter++;
 		}
-		
+
 		Assert.assertEquals(0,counter);
-		
+
 	}
 
 }

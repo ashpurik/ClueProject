@@ -34,10 +34,6 @@ public class Player {
 		return initpos;
 	}
 
-	public BoardCell pickLocation(Set<BoardCell> targets) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	public void setCards(ArrayList<Card> cards) {
 		this.cards = cards;

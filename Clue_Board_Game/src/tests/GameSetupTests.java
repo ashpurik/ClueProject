@@ -113,7 +113,8 @@ public class GameSetupTests {
 		Assert.assertEquals(1, pipeCount);
 		Assert.assertEquals(1, marquezCount);
 	}
-	//testing the deal (ugly baby ahead)
+	
+	//testing the deal
 	@Test
 	public void testDeal(){
 		
