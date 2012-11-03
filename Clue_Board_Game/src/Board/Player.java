@@ -41,20 +41,28 @@ public class Player {
 	}
 
 	public Card disproveSuggestion(String person, String weapon, String room) {
+		//an array list that has the cards you can disprove
 		ArrayList<Card> hasCards = new ArrayList<Card>();
+		
+		//goes through all of the players cards
 		for (int i=0; i<cards.size(); i++) {
+			//case 1: the card you have is a person
 			if (cards.get(i).getName().equals(person)) {
 				hasCards.add(cards.get(i));
+			//case 2: the card you have is a weapon
 			} else if (cards.get(i).getName().equals(weapon)) {
 				hasCards.add(cards.get(i));
+			//case 3: the card you have is a room
 			} else if (cards.get(i).getName().equals(room)) {
 				hasCards.add(cards.get(i));
 			} 
 		}
+		//assuming that you have the cards, shuffle them up and return the first one
 		if (hasCards.size() != 0) {
 			Collections.shuffle(hasCards);
 			return hasCards.get(0);
 		} else {
+			//you can't disprove 
 			return null;	
 		}
 	}

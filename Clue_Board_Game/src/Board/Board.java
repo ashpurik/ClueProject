@@ -352,6 +352,16 @@ public class Board {
 			return false;
 	}
 
+	//for createSuggestion in ComputerPlayer
+	public String findMapValue(char initial){
+		for (Map.Entry<Character, String> entry: rooms.entrySet()) {
+			if (entry.getKey().equals(initial)) {
+				return entry.getValue();
+			}
+		}
+		return null;		
+	}
+	
 	public void deal() {
 		String person = null;
 		String weapon = null;
@@ -417,10 +427,28 @@ public class Board {
 
 
 	public Card handleSuggestion(String person, String weapon, String room, Player currentPlayer) {
-		// TODO Auto-generated method stub
-		return null;
+		ArrayList<Card> discards = new ArrayList<Card>();
+		
+		for (int i=0; i < players.size(); i++) {
+			if (players.get(i) != currentPlayer) {
+				Card card = players.get(i).disproveSuggestion(person, weapon, room);
+				discards.add(card);
+			}
+		}
+		//if someone has the card shuffle them and return the first card and only the one
+		if(discards.size() != 0){
+			Collections.shuffle(discards);
+			return discards.get(0);
+		} else {
+			//no one has the card
+			return null;
+		}
 	}
 	
+	public static void setPlayers(ArrayList<Player> players) {
+		Board.players = players;
+	}
+
 	public static void setSolution(Solution conclusion){
 		solution = conclusion;
 	}
@@ -429,13 +457,9 @@ public class Board {
 		return solution;
 	}
 	
-	public static void main(String[] args) {
+/*	public static void main(String[] args) {
 		Board board = new Board();
 		board.deal();
-		//System.out.println(solution.getPerson());
-		Solution newsolution = new Solution("Professor Plum", "Berthoud", "Candlestick");
-		setSolution(newsolution);
-		//System.out.println(solution.getPerson());
 	}
-
+*/
 }

@@ -248,17 +248,20 @@ public class GameActionsTest {
 		Assert.assertEquals(1, humangift);
 		Assert.assertEquals(2, bad);
 
+		//Setting the players
+		board.setPlayers(players);
+		
 		//multiple people have possible cards, one person returns one card only
 		int scarlett = 0;
 		int revolver = 0;
 		int stratton = 0;
 		for(int i=0; i < 100; i++){
 			Card test3 = board.handleSuggestion("Miss Scarlett", "Revolver", "Stratton", currentPlayer);
-			if(test3.getName().equals("Miss Scarlett"))
+			if(test3 != null && test3.getName().equals("Miss Scarlett"))
 				scarlett++;
-			if(test3.getName().equals("Revolver"))
+			if(test3 != null && test3.getName().equals("Revolver"))
 				revolver++;
-			if(test3.getName().equals("Stratton"))
+			if(test3 != null && test3.getName().equals("Stratton"))
 				stratton++;
 		}
 		Assert.assertTrue(scarlett > 1);
