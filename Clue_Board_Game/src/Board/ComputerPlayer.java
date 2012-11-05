@@ -77,11 +77,21 @@ public class ComputerPlayer extends Player {
 			String cardname = board.findMapValue(((RoomCell) roomsugg).getInitial());
 			Card card = new Card(cardname, CardType.ROOM);
 			suggcomp.add(card);
+			
+			//Making sure that the room that is put in Board is the right room
+			System.out.println("Room Name:");
+			System.out.println(card.getName() + " \n");
 		}
+		
+		//Attempting to find out what is being put into suggcard
+		System.out.println("Suggcards:");
+				for(int i=0; i < suggcards.size(); i++){
+					System.out.println(i + " " + suggcards.get(i).getName());
+				}
 		
 		Collections.shuffle(suggcards);
 		
-		//picking only person for the suggestion
+		//picking possible person or weapon for the suggestion
 		for (int i=0; i < suggcards.size(); i++) {
 			if(suggcards.get(i).getCardtype() == CardType.PERSON) {
 				suggcomp.add(suggcards.get(i));
@@ -94,7 +104,10 @@ public class ComputerPlayer extends Player {
 			}
 		}
 		
+		System.out.println(" ");
+		
 		//Attempting to find out what is being put into suggcomp
+		System.out.println("Suggcomp:");
 		for(int i=0; i < suggcomp.size(); i++){
 			System.out.println(i + " " + suggcomp.get(i).getName());
 		}
