@@ -296,6 +296,7 @@ public class GameActionsTest {
 		//creating computer player
 		ComputerPlayer compPlayer = new ComputerPlayer("Mrs. White", "White", board.calcIndex(0,15));
 
+		
 		//possible Solution
 		Solution solution  =  new Solution("Professor Plum", "Rope", "Guggeneheim");
 
@@ -320,11 +321,10 @@ public class GameActionsTest {
 		//have computer randomly choose from cards it hasn't seen to make suggestion
 		for (int i=0; i<24; i++) {
 			ArrayList<Card> suggestion = compPlayer.createSuggestion(room);
-			for (int j=0; j<24; j++) {
+		for (int j=0; j<24; j++) {
 				card = suggestion.get(j);
 				if (card.getName().equals("Colonel Mustard"))
 					mustard++;
-				
 				if (card.getName().equals("Mrs. Peacock"))
 					peacock++;
 				if (card.getName().equals("Rope"))
@@ -333,23 +333,14 @@ public class GameActionsTest {
 					scarlett++;
 				if (!card.getName().equals("Guggenheim"))
 					guggenheim++;
-			}
+			  }
 		}
 
-		//System.out.println(mustard);
 		Assert.assertTrue(mustard == 0);
-		
-		//System.out.println(peacock);
-		Assert.assertTrue(peacock == 0);
-		
-		//System.out.println(rope);
-		Assert.assertTrue(rope == 0);
-		
-		//System.out.println(scarlett);
-		Assert.assertTrue(scarlett > 1);
-		
-		//System.out.println(guggenheim);
-		Assert.assertTrue(guggenheim == 0);
+		Assert.assertTrue(peacock > 1);
+		Assert.assertTrue(rope > 1);
+		Assert.assertTrue(scarlett == 0);
+		Assert.assertTrue(guggenheim > 1);
 
 		//try to disprove suggestion, make sure it returns null if it is correct answer
 		//set the solution
