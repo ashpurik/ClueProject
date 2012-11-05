@@ -46,7 +46,7 @@ public class GameActionsTest {
 		board = new Board();
 		//possible solution
 		solution = new Solution("Professor Plum", "Berthoud", "Candlestick");
-
+		
 		mustardCard = new Card("Colonel Mustard", Card.CardType.PERSON);
 		scarlettCard = new Card("Miss Scarlett", Card.CardType.PERSON);
 		knifeCard = new Card("Knife", Card.CardType.WEAPON);
@@ -297,7 +297,7 @@ public class GameActionsTest {
 		ComputerPlayer compPlayer = new ComputerPlayer("Mrs. White", "White", board.calcIndex(0,15));
 
 		//possible Solution
-		Solution solution  =  new Solution("Professor Plum", "Rope", "Brown");
+		Solution solution  =  new Solution("Professor Plum", "Rope", "Guggeneheim");
 
 		//need something for current room player is in
 		//making sure that the location Mrs.White picks is a room
@@ -310,24 +310,24 @@ public class GameActionsTest {
 		compPlayer.updateSeen(strattonCard);
 		compPlayer.updateSeen(scarlettCard);
 
-		int plum=0;
+		int mustard=0;
 		int peacock=0;
-		int revGreen=0;
+		int rope=0;
 		int scarlett=0;
 		int guggenheim=0;
 
 		Card card = null;
 		//have computer randomly choose from cards it hasn't seen to make suggestion
-		for (int i=0; i<25; i++) {
+		for (int i=0; i<24; i++) {
 			ArrayList<Card> suggestion = compPlayer.createSuggestion(room);
-			for (int j=0; j<25; j++) {
+			for (int j=0; j<24; j++) {
 				card = suggestion.get(j);
-				if (card.getName().equals("Professor Plum"))
-					plum++;
+				if (card.getName().equals("Colonel Mustard"))
+					mustard++;
 				if (card.getName().equals("Mrs. Peacock"))
 					peacock++;
-				if (card.getName().equals("Revered Green"))
-					revGreen++;
+				if (card.getName().equals("Rope"))
+					rope++;
 				if (card.getName().equals("Miss Scarlett"))
 					scarlett++;
 				if (!card.getName().equals("Guggenheim"))
@@ -335,10 +335,10 @@ public class GameActionsTest {
 			}
 		}
 
-		Assert.assertTrue(plum > 1);
-		Assert.assertTrue(peacock > 1);
-		Assert.assertTrue(revGreen > 1);
-		Assert.assertTrue(scarlett == 0);
+		Assert.assertTrue(mustard == 0);
+		Assert.assertTrue(peacock == 0);
+		Assert.assertTrue(rope == 0);
+		Assert.assertTrue(scarlett > 1);
 		Assert.assertTrue(guggenheim == 0);
 
 		//try to disprove suggestion, make sure it returns null if it is correct answer

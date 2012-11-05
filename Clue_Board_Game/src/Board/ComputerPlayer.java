@@ -83,11 +83,11 @@ public class ComputerPlayer extends Player {
 			System.out.println(card.getName() + " \n");
 		}
 		
-		/* //Attempting to find out what is being put into suggcard
+		//Attempting to find out what is being put into suggcard
 		System.out.println("Suggcards:");
 		for(int i=0; i < suggcards.size(); i++){
 			System.out.println(i + " " + suggcards.get(i).getName());
-		}*/
+		}
 		
 		Collections.shuffle(suggcards);
 		
