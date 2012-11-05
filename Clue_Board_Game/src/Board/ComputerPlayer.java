@@ -55,7 +55,17 @@ public class ComputerPlayer extends Player {
 		ArrayList<Card> suggcards = new ArrayList<Card>();
 		ArrayList<Card> suggcomp = new ArrayList<Card>();
 		
-	
+		//the computer suggestion has no choice but to choose the room it is currently in
+		if (roomsugg.isRoom()) {
+			String cardname = board.findMapValue(((RoomCell) roomsugg).getInitial());
+			Card card = new Card(cardname, CardType.ROOM);
+			suggcomp.add(card);
+			
+			//Making sure that the room that is put in Board is the right room
+			System.out.println("Room Name:");
+			System.out.println(card.getName() + " \n");
+		}
+		
 		//adding all people and weapons it has not seen
 		//go through whatever has not been seen for person and weapon card suggestions
 		for (int i=0;i< board.getDeck().size();i++) {
@@ -70,24 +80,10 @@ public class ComputerPlayer extends Player {
 					suggcards.add(board.getDeck().get(i));
 				}
 			}
+			System.out.println(suggcards.get(i).getName());
+
 		}
 		
-		//the computer suggestion has no choice but to choose the room it is currently in
-		if (roomsugg.isRoom()) {
-			String cardname = board.findMapValue(((RoomCell) roomsugg).getInitial());
-			Card card = new Card(cardname, CardType.ROOM);
-			suggcomp.add(card);
-			
-			//Making sure that the room that is put in Board is the right room
-			System.out.println("Room Name:");
-			System.out.println(card.getName() + " \n");
-		}
-		
-		//Attempting to find out what is being put into suggcard
-		System.out.println("Suggcards:");
-		for(int i=0; i < suggcards.size(); i++){
-			System.out.println(i + " " + suggcards.get(i).getName());
-		}
 		
 		Collections.shuffle(suggcards);
 		
@@ -103,32 +99,13 @@ public class ComputerPlayer extends Player {
 				break;
 			}
 		}
-		
-		//putting the cards in the right order
-		for(int i=0; i< suggcomp.size(); i++) {
-			if(suggcomp.get(i).getCardtype()==CardType.PERSON) {
-				suggcomp.indexOf(0);
-			}
-			if(suggcomp.get(i).getCardtype()==CardType.WEAPON) {
-				suggcomp.indexOf(1);
-			}
-			if(suggcomp.get(i).getCardtype()==CardType.ROOM) {
-				suggcomp.indexOf(2);
-			}
-		}
-		
+	
 		//Attempting to find out what is being put into suggcomp
 		System.out.println("Suggcomp:");
 		for(int i=0; i < suggcomp.size(); i++){
 			System.out.println(i + " " + suggcomp.get(i).getName());
 		}
 		
-		
-		/* decided that perhaps the order doesn't matter
-		System.out.println("Attempted Suggestion:");
-		System.out.println("Person: " + suggcomp.get(0).getName() + " Weapon: " + suggcomp.get(1).getName() + " Room: " + suggcomp.get(2).getName());
-		*.
-		*/
 		
 		return suggcomp;
 		

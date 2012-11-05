@@ -460,12 +460,9 @@ public class Board {
 	public static void main(String[] args) {
 		Board board = new Board();
 		board.deal();
-		
-		ComputerPlayer comp = new ComputerPlayer();
-		
-		comp.createSuggestion(board.getCellAt(0));
-		
-		
-	}
 
+		ComputerPlayer comp = new ComputerPlayer();
+
+		comp.createSuggestion(board.getCellAt(10));
+	}
 }

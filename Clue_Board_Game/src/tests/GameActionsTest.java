@@ -324,6 +324,7 @@ public class GameActionsTest {
 				card = suggestion.get(j);
 				if (card.getName().equals("Colonel Mustard"))
 					mustard++;
+				
 				if (card.getName().equals("Mrs. Peacock"))
 					peacock++;
 				if (card.getName().equals("Rope"))
@@ -335,10 +336,19 @@ public class GameActionsTest {
 			}
 		}
 
+		System.out.println(mustard);
 		Assert.assertTrue(mustard == 0);
+		
+		System.out.println(peacock);
 		Assert.assertTrue(peacock == 0);
+		
+		System.out.println(rope);
 		Assert.assertTrue(rope == 0);
+		
+		System.out.println(scarlett);
 		Assert.assertTrue(scarlett > 1);
+		
+		System.out.println(guggenheim);
 		Assert.assertTrue(guggenheim == 0);
 
 		//try to disprove suggestion, make sure it returns null if it is correct answer
@@ -354,7 +364,7 @@ public class GameActionsTest {
 
 		//if no one can disprove it you did great
 		for(int i=0; i < players.size(); i++) {
-			Card test6 = players.get(i).disproveSuggestion("Professor Plum", "Rope", "Brown");
+			Card test6 = players.get(i).disproveSuggestion("Professor Plum", "Rope", "Guggenheim");
 			if(!test6.equals(null))
 				counter++;
 		}
