@@ -83,11 +83,11 @@ public class ComputerPlayer extends Player {
 			System.out.println(card.getName() + " \n");
 		}
 		
-		//Attempting to find out what is being put into suggcard
+		/* //Attempting to find out what is being put into suggcard
 		System.out.println("Suggcards:");
-				for(int i=0; i < suggcards.size(); i++){
-					System.out.println(i + " " + suggcards.get(i).getName());
-				}
+		for(int i=0; i < suggcards.size(); i++){
+			System.out.println(i + " " + suggcards.get(i).getName());
+		}*/
 		
 		Collections.shuffle(suggcards);
 		
@@ -104,7 +104,18 @@ public class ComputerPlayer extends Player {
 			}
 		}
 		
-		System.out.println(" ");
+		//putting the cards in the right order
+		for(int i=0; i< suggcomp.size(); i++) {
+			if(suggcomp.get(i).getCardtype()==CardType.PERSON) {
+				suggcomp.indexOf(0);
+			}
+			if(suggcomp.get(i).getCardtype()==CardType.WEAPON) {
+				suggcomp.indexOf(1);
+			}
+			if(suggcomp.get(i).getCardtype()==CardType.ROOM) {
+				suggcomp.indexOf(2);
+			}
+		}
 		
 		//Attempting to find out what is being put into suggcomp
 		System.out.println("Suggcomp:");
