@@ -306,9 +306,9 @@ public class GameActionsTest {
 
 		BoardCell room = compPlayer.pickLocation(targets);
 
-		compPlayer.updateSeen(mustardCard);
-		compPlayer.updateSeen(strattonCard);
-		compPlayer.updateSeen(scarlettCard);
+		//compPlayer.updateSeen(mustardCard);
+		//compPlayer.updateSeen(strattonCard);
+		//compPlayer.updateSeen(scarlettCard);
 
 		int mustard=0;
 		int peacock=0;
