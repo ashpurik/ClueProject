@@ -55,13 +55,7 @@ public class ComputerPlayer extends Player {
 		ArrayList<Card> suggcards = new ArrayList<Card>();
 		ArrayList<Card> suggcomp = new ArrayList<Card>();
 		
-		//the computer suggestion has no choice but to choose the room it is currently in
-		if (roomsugg.isRoom()) {
-			String cardname = board.findMapValue(((RoomCell) roomsugg).getInitial());
-			Card card = new Card(cardname, CardType.ROOM);
-			suggcomp.add(card);
-		}
-		
+	
 		//adding all people and weapons it has not seen
 		//go through whatever has not been seen for person and weapon card suggestions
 		for (int i=0;i< board.getDeck().size();i++) {
@@ -78,8 +72,15 @@ public class ComputerPlayer extends Player {
 			}
 		}
 		
+		//the computer suggestion has no choice but to choose the room it is currently in
+		if (roomsugg.isRoom()) {
+			String cardname = board.findMapValue(((RoomCell) roomsugg).getInitial());
+			Card card = new Card(cardname, CardType.ROOM);
+			suggcomp.add(card);
+		}
+		
 		Collections.shuffle(suggcards);
-
+		
 		//picking only person for the suggestion
 		for (int i=0; i < suggcards.size(); i++) {
 			if(suggcards.get(i).getCardtype() == CardType.PERSON) {
@@ -92,6 +93,18 @@ public class ComputerPlayer extends Player {
 				break;
 			}
 		}
+		
+		//Attempting to find out what is being put into suggcomp
+		for(int i=0; i < suggcomp.size(); i++){
+			System.out.println(i + " " + suggcomp.get(i).getName());
+		}
+		
+		
+		/* decided that perhaps the order doesn't matter
+		System.out.println("Attempted Suggestion:");
+		System.out.println("Person: " + suggcomp.get(0).getName() + " Weapon: " + suggcomp.get(1).getName() + " Room: " + suggcomp.get(2).getName());
+		*.
+		*/
 		
 		return suggcomp;
 		
@@ -112,17 +125,5 @@ public class ComputerPlayer extends Player {
 	public void setLastRoomVisited(char rm) {
 		lastRoomVisited = rm;
 	}
-	
-	/*public static void main(String[] args) {
-		Board board = new Board();
-		board.calcTargets(board.calcIndex(0,6), 2);
-		
-		ComputerPlayer comp = new ComputerPlayer();
-		comp.setLastRoomVisited('G');
-		for (int i=0; i<40; i++) {
-			BoardCell choice = comp.pickLocation(board.getTargets());
-			System.out.println(choice);
-		}
 
-	}*/
 }

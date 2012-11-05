@@ -316,11 +316,12 @@ public class GameActionsTest {
 		int scarlett=0;
 		int guggenheim=0;
 
+		Card card = null;
 		//have computer randomly choose from cards it hasn't seen to make suggestion
 		for (int i=0; i<25; i++) {
 			ArrayList<Card> suggestion = compPlayer.createSuggestion(room);
 			for (int j=0; j<25; j++) {
-				Card card = suggestion.get(j);
+				card = suggestion.get(j);
 				if (card.getName().equals("Professor Plum"))
 					plum++;
 				if (card.getName().equals("Mrs. Peacock"))
