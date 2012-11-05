@@ -336,19 +336,19 @@ public class GameActionsTest {
 			}
 		}
 
-		System.out.println(mustard);
+		//System.out.println(mustard);
 		Assert.assertTrue(mustard == 0);
 		
-		System.out.println(peacock);
+		//System.out.println(peacock);
 		Assert.assertTrue(peacock == 0);
 		
-		System.out.println(rope);
+		//System.out.println(rope);
 		Assert.assertTrue(rope == 0);
 		
-		System.out.println(scarlett);
+		//System.out.println(scarlett);
 		Assert.assertTrue(scarlett > 1);
 		
-		System.out.println(guggenheim);
+		//System.out.println(guggenheim);
 		Assert.assertTrue(guggenheim == 0);
 
 		//try to disprove suggestion, make sure it returns null if it is correct answer

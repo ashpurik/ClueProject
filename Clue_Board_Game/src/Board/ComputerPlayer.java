@@ -66,6 +66,7 @@ public class ComputerPlayer extends Player {
 			System.out.println(card.getName() + " \n");
 		}
 		
+		System.out.println("SuggCards:");
 		//adding all people and weapons it has not seen
 		//go through whatever has not been seen for person and weapon card suggestions
 		for (int i=0;i< board.getDeck().size();i++) {
@@ -80,10 +81,11 @@ public class ComputerPlayer extends Player {
 					suggcards.add(board.getDeck().get(i));
 				}
 			}
+			
 			System.out.println(suggcards.get(i).getName());
-
 		}
 		
+
 		
 		Collections.shuffle(suggcards);
 		
@@ -99,17 +101,14 @@ public class ComputerPlayer extends Player {
 				break;
 			}
 		}
-	
 		//Attempting to find out what is being put into suggcomp
 		System.out.println("Suggcomp:");
 		for(int i=0; i < suggcomp.size(); i++){
-			System.out.println(i + " " + suggcomp.get(i).getName());
+				System.out.println(suggcomp.get(i).getName());
 		}
-		
-		
-		return suggcomp;
-		
-	}
+	
+	return suggcomp;	
+}
 	
 	public void updateSeen(Card seencard){
 		seen.add(seencard);
