@@ -80,11 +80,11 @@ public class Board {
 	public int getNumColumns() {
 		return numColumns;
 	}
-	
+
 	public ArrayList<Player> getPlayers() {
 		return players;
 	}
-	
+
 
 	public int calcIndex(int row, int column){
 		return (row*numColumns+column);
@@ -190,19 +190,19 @@ public class Board {
 	public LinkedList<Integer> getAdjList(int cell){
 		return adjMtx.get(cells.get(cell));
 	}
-	
+
 	public void loadPeople(String filepeople){
-		
+
 		Player player = null;
-		
+
 		try{
 			FileReader reader = new FileReader(filepeople);
 			Scanner in  = new Scanner(reader);
-			
+
 			int position = 0;
 			String row;
 			String column;
-			
+
 			//reading from the file
 			//Splitting Person, Color, Starting Point
 			String line;
@@ -210,11 +210,11 @@ public class Board {
 				line = in.nextLine();
 				String slash = "/";
 				String[] tokens = line.split(slash);
-				
+
 				String comma = ",";
 				String[] tokens2 = tokens[2].split(comma);
 				tokens2[0] = tokens2[0].substring(1);
-				
+
 				//getting the position value from character to integer
 				row = tokens2[0];
 				column = tokens2[1];
@@ -225,19 +225,19 @@ public class Board {
 					player = new HumanPlayer(tokens[0], tokens[1].substring(1), position);
 				} else {
 					player = new ComputerPlayer(tokens[0], tokens[1].substring(1), position);
-				
+
 				}
 				//adding all players to the array list
 				players.add(player);
 				//adds player cards to deck
 				deck.add(new Card(player.getName(), CardType.PERSON));
 			}
-			
+
 		} catch (FileNotFoundException e){
 			System.out.println("ERROR: " + e + " was not found");
 		}
 	}
-	
+
 	public void loadWeapons(String weaponFile) {
 		try {
 			FileReader reader = new FileReader(weaponFile);
@@ -251,11 +251,11 @@ public class Board {
 	}
 
 	public void loadConfigFiles(){
-		
+
 		//load players
 		loadPeople("players.txt");
 		loadWeapons("weapons.txt");
-		
+
 		try{
 			//FileReader reader = new FileReader(configOne);
 			FileReader reader = new FileReader(ourlegend);
@@ -339,12 +339,12 @@ public class Board {
 			visited = new Boolean [totalCount];
 			for (int i=0; i<totalCount; i++)
 				visited[i] = false;
-			
+
 		} catch(FileNotFoundException e) {
 			System.out.println(e);
 		}
 	}
-	
+
 	public boolean checkAccusation(String person, String weapon, String room) {
 		if (solution.getPerson().equals(person) && solution.getWeapon().equals(weapon) && solution.getRoom().equals(room))
 			return true;
@@ -361,15 +361,15 @@ public class Board {
 		}
 		return null;		
 	}
-	
+
 	public void deal() {
 		String person = null;
 		String weapon = null;
 		String room = null;
-		
+
 		//shuffle the cards
 		Collections.shuffle(deck);
-		
+
 		//pick solution
 		for (int i=0; i<deck.size(); i++) {
 			if (deck.get(i).getCardtype() == CardType.PERSON) {
@@ -386,20 +386,20 @@ public class Board {
 			}
 		}
 		solution = new Solution(person, weapon, room);
-		
+
 		//put solution into an ArrayList
 		ArrayList<String> answer = new ArrayList<String>();
 		answer.add(person);
 		answer.add(weapon);
 		answer.add(room);
-		
+
 		//find out how many cards each player gets
 		int cardsPer = deck.size()/players.size();
-		
+
 		//each person's cards
 		ArrayList<Card> setofCards;
 		int loc = 0;
-		
+
 		//for each player, create new set of cards
 		for (int j=0; j<players.size(); j++) {
 			setofCards = new ArrayList<Card>();
@@ -412,13 +412,6 @@ public class Board {
 			}
 			players.get(j).setCards(setofCards);
 		}	
-		
-		/*for (int i=0; i<players.size(); i++) {
-			for (int j=0; j<players.get(i).getCards().size(); j++) {
-				System.out.println(players.get(i).getCards().get(j).getName());
-			}
-			System.out.println("---------");
-		}*/
 	}
 
 	public ArrayList<Card> getDeck() {
@@ -428,7 +421,7 @@ public class Board {
 
 	public Card handleSuggestion(String person, String weapon, String room, Player currentPlayer) {
 		ArrayList<Card> discards = new ArrayList<Card>();
-		
+
 		for (int i=0; i < players.size(); i++) {
 			if (players.get(i) != currentPlayer) {
 				Card card = players.get(i).disproveSuggestion(person, weapon, room);
@@ -444,7 +437,7 @@ public class Board {
 			return null;
 		}
 	}
-	
+
 	public static void setPlayers(ArrayList<Player> players) {
 		Board.players = players;
 	}
@@ -452,17 +445,8 @@ public class Board {
 	public static void setSolution(Solution conclusion){
 		solution = conclusion;
 	}
-	
+
 	public Solution getSolution() {
 		return solution;
 	}
-	
-	/*public static void main(String[] args) {
-		Board board = new Board();
-		board.deal();
-
-		ComputerPlayer comp = new ComputerPlayer();
-
-		comp.createSuggestion(board.getCellAt(10));
-	}*/
 }

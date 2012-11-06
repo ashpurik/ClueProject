@@ -15,7 +15,6 @@ import Board.BoardCell;
 import Board.ComputerPlayer;
 import Board.HumanPlayer;
 import Board.Player;
-import Board.RoomCell;
 import Board.Solution;
 import Board.Card;
 
@@ -46,7 +45,7 @@ public class GameActionsTest {
 		board = new Board();
 		//possible solution
 		solution = new Solution("Professor Plum", "Berthoud", "Candlestick");
-		
+
 		mustardCard = new Card("Colonel Mustard", Card.CardType.PERSON);
 		scarlettCard = new Card("Miss Scarlett", Card.CardType.PERSON);
 		knifeCard = new Card("Knife", Card.CardType.WEAPON);
@@ -93,7 +92,7 @@ public class GameActionsTest {
 			if (choice.isWalkway() && !choice.isRoom())
 				good++;
 		}
-		
+
 		Assert.assertEquals(100, good);
 
 		//ensures that room is always selected if it isn't last visited
@@ -108,7 +107,7 @@ public class GameActionsTest {
 			if (choice.isRoom() && !choice.isWalkway())
 				yes++;
 		}
-		
+
 		Assert.assertEquals(100, yes);
 	}
 
@@ -250,7 +249,7 @@ public class GameActionsTest {
 
 		//Setting the players
 		board.setPlayers(players);
-		
+
 		//multiple people have possible cards, one person returns one card only
 		int scarlett = 0;
 		int revolver = 0;
@@ -296,9 +295,6 @@ public class GameActionsTest {
 		//creating computer player
 		ComputerPlayer compPlayer = new ComputerPlayer("Mrs. White", "White", board.calcIndex(0,15));
 
-		//possible Solution
-		Solution solution  =  new Solution("Professor Plum", "Rope", "Guggeneheim");
-
 		//need something for current room player is in
 		//making sure that the location Mrs.White picks is a room
 		board.calcTargets(board.calcIndex(0,15), 4);
@@ -306,67 +302,61 @@ public class GameActionsTest {
 
 		BoardCell room = compPlayer.pickLocation(targets);
 
-		//compPlayer.updateSeen(mustardCard);
-		//compPlayer.updateSeen(strattonCard);
-		//compPlayer.updateSeen(scarlettCard);
+		compPlayer.updateSeen("Colonel Mustard");
+		compPlayer.updateSeen("Stratton");
+		compPlayer.updateSeen("Miss Scarlett");
 
 		int mustard=0;
 		int peacock=0;
 		int rope=0;
-		int scarlett=0;
+		int white=0;
 		int guggenheim=0;
 
 		Card card = null;
 		//have computer randomly choose from cards it hasn't seen to make suggestion
-		for (int i=0; i<24; i++) {
+		for (int i=0; i<50; i++) {
 			ArrayList<Card> suggestion = compPlayer.createSuggestion(room);
-			for (int j=0; j<24; j++) {
+			for (int j=0; j<suggestion.size(); j++) {
 				card = suggestion.get(j);
 				if (card.getName().equals("Colonel Mustard"))
 					mustard++;
-				
 				if (card.getName().equals("Mrs. Peacock"))
 					peacock++;
 				if (card.getName().equals("Rope"))
 					rope++;
-				if (card.getName().equals("Miss Scarlett"))
-					scarlett++;
+				if (card.getName().equals("Mrs. White"))
+					white++;
 				if (!card.getName().equals("Guggenheim"))
 					guggenheim++;
 			}
 		}
 
-		//System.out.println(mustard);
 		Assert.assertTrue(mustard == 0);
-		
-		//System.out.println(peacock);
-		Assert.assertTrue(peacock == 0);
-		
-		//System.out.println(rope);
-		Assert.assertTrue(rope == 0);
-		
-		//System.out.println(scarlett);
-		Assert.assertTrue(scarlett > 1);
-		
-		//System.out.println(guggenheim);
-		Assert.assertTrue(guggenheim == 0);
+		Assert.assertTrue(peacock > 1);
+		Assert.assertTrue(rope > 1);
+		Assert.assertTrue(white == 0);
+		Assert.assertTrue(guggenheim > 1);
 
 		//try to disprove suggestion, make sure it returns null if it is correct answer
-		//set the solution
-		board.setSolution(solution);
 		//deal the cards
 		board.deal();
 
 		//array list of all the players
 		ArrayList<Player> players =  board.getPlayers();
 
+		//get the solution that was made in deal method
+		String person = board.getSolution().getPerson();
+		String weapon = board.getSolution().getWeapon();
+		String room1 = board.getSolution().getRoom();
+		
 		int counter = 0;
-
 		//if no one can disprove it you did great
-		for(int i=0; i < players.size(); i++) {
-			Card test6 = players.get(i).disproveSuggestion("Professor Plum", "Rope", "Guggenheim");
-			if(!test6.equals(null))
-				counter++;
+		for (int j=0; j<100; j++) {
+			for(int i=0; i < players.size(); i++) {
+				Card test6 = players.get(i).disproveSuggestion(person, weapon, room1);
+				if(test6 != null)
+					counter++;
+			}
 		}
 
 		Assert.assertEquals(0,counter);
