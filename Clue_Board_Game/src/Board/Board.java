@@ -449,4 +449,6 @@ public class Board {
 	public Solution getSolution() {
 		return solution;
 	}
+
 }
+
